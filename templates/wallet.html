@@ -1,0 +1,1222 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="theme-color"
+        content="#101828"
+    >
+
+    <title>
+        Wallet | SpendSettle
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='brand.css') }}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='wallet.css') }}"
+    >
+
+</head>
+
+
+<body class="dashboard-page">
+
+
+    {% include 'partials/navbar.html' %}
+
+
+    <main class="ss-page wallet-page">
+
+
+        <header class="ss-page-header">
+
+            <div class="ss-page-heading">
+
+                <span class="ss-eyebrow">
+                    Wallet
+                </span>
+
+                <h1 class="ss-page-title">
+                    Your money
+                </h1>
+
+                <p class="ss-page-subtitle">
+                    Send, receive and manage wallet activity.
+                </p>
+
+            </div>
+
+        </header>
+
+
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+
+            {% if messages %}
+
+                {% for category, message in messages %}
+
+                    <div class="message {{ category }}">
+                        {{ message }}
+                    </div>
+
+                {% endfor %}
+
+            {% endif %}
+
+        {% endwith %}
+
+
+
+        <section class="wallet-hero">
+
+
+            <div class="wallet-hero-content">
+
+
+                <div class="wallet-hero-top">
+
+
+                    <div>
+
+                        <span class="wallet-balance-label">
+                            Available balance
+                        </span>
+
+
+                        {% if balance_unlocked %}
+
+                            <strong class="wallet-balance">
+
+                                {{ "%.2f"|format(wallet_balance) }}
+
+                                <small>
+                                    EGP
+                                </small>
+
+                            </strong>
+
+                        {% else %}
+
+                            <strong class="wallet-balance masked">
+                                ••••••••
+                                <small>EGP</small>
+                            </strong>
+
+                        {% endif %}
+
+                    </div>
+
+
+
+                    <div class="wallet-balance-control">
+
+
+                        {% if balance_unlocked %}
+
+                            <form
+                                action="{{ url_for('hide_balance') }}"
+                                method="POST"
+                            >
+
+                                <input
+                                    type="hidden"
+                                    name="next_page"
+                                    value="wallet"
+                                >
+
+                                <button
+                                    type="submit"
+                                    class="wallet-privacy-button"
+                                >
+                                    ◉ Hide balance
+                                </button>
+
+                            </form>
+
+                        {% else %}
+
+                            <button
+                                type="button"
+                                class="wallet-privacy-button"
+                                onclick="openWalletModal('unlockBalanceModal')"
+                            >
+                                ◉ Show balance
+                            </button>
+
+                        {% endif %}
+
+
+                    </div>
+
+
+                </div>
+
+
+
+                <div class="wallet-actions">
+
+
+                    <button
+                        type="button"
+                        class="wallet-action"
+                        onclick="openWalletModal('depositModal')"
+                    >
+
+                        <span class="wallet-action-icon">
+                            +
+                        </span>
+
+                        <span>
+                            <strong>Add money</strong>
+                            <span>Deposit</span>
+                        </span>
+
+                    </button>
+
+
+
+                    <button
+                        type="button"
+                        class="wallet-action"
+                        onclick="openWalletModal('sendModal')"
+                    >
+
+                        <span class="wallet-action-icon">
+                            ↑
+                        </span>
+
+                        <span>
+                            <strong>Send</strong>
+                            <span>Transfer</span>
+                        </span>
+
+                    </button>
+
+
+
+                    <button
+                        type="button"
+                        class="wallet-action"
+                        onclick="openWalletModal('withdrawModal')"
+                    >
+
+                        <span class="wallet-action-icon">
+                            ↓
+                        </span>
+
+                        <span>
+                            <strong>Withdraw</strong>
+                            <span>Cash out</span>
+                        </span>
+
+                    </button>
+
+
+
+                    <button
+                        type="button"
+                        class="wallet-action"
+                        onclick="openWalletModal('paymentModal')"
+                    >
+
+                        <span class="wallet-action-icon">
+                            ✓
+                        </span>
+
+                        <span>
+                            <strong>Pay</strong>
+                            <span>Wallet or card</span>
+                        </span>
+
+                    </button>
+
+
+                </div>
+
+
+            </div>
+
+
+        </section>
+
+
+
+        <section class="ss-section">
+
+            <div class="wallet-stats">
+
+
+                <div class="ss-stat-card">
+
+                    <span class="ss-stat-label">
+                        Money in
+                    </span>
+
+                    <strong class="ss-stat-value ss-positive">
+
+                        +{{ "%.2f"|format(wallet_stats.money_in) }}
+
+                    </strong>
+
+                    <span class="ss-stat-meta">
+                        This month
+                    </span>
+
+                </div>
+
+
+                <div class="ss-stat-card">
+
+                    <span class="ss-stat-label">
+                        Money out
+                    </span>
+
+                    <strong class="ss-stat-value ss-negative">
+
+                        -{{ "%.2f"|format(wallet_stats.money_out) }}
+
+                    </strong>
+
+                    <span class="ss-stat-meta">
+                        This month
+                    </span>
+
+                </div>
+
+
+                <div class="ss-stat-card">
+
+                    <span class="ss-stat-label">
+                        Activity
+                    </span>
+
+                    <strong class="ss-stat-value">
+
+                        {{ wallet_stats.transaction_count }}
+
+                    </strong>
+
+                    <span class="ss-stat-meta">
+                        Transactions
+                    </span>
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+
+
+        <section class="ss-section">
+
+
+            <div class="wallet-activity-head">
+
+                <div>
+
+                    <h2>
+                        Wallet activity
+                    </h2>
+
+                </div>
+
+                <span>
+                    Latest transactions
+                </span>
+
+            </div>
+
+
+
+            {% if transactions %}
+
+                <div class="ss-activity-list">
+
+
+                    {% for transaction in transactions %}
+
+
+                        {% set is_income =
+                            transaction.transaction_type in [
+                                'Deposit',
+                                'Transfer Received'
+                            ]
+                        %}
+
+
+                        <a
+                            href="{{ url_for('receipt', transaction_id=transaction.transaction_id) }}"
+                            class="ss-activity-row"
+                        >
+
+
+                            <span class="ss-activity-icon">
+
+                                {% if is_income %}
+                                    ↓
+                                {% else %}
+                                    ↑
+                                {% endif %}
+
+                            </span>
+
+
+                            <span class="ss-activity-main">
+
+                                <strong>
+                                    {{ transaction.transaction_type }}
+                                </strong>
+
+                                <span>
+
+                                    {{ transaction.description or transaction.status|default('Completed') }}
+
+                                    {% if transaction.date %}
+                                        • {{ transaction.date.strftime('%d %b, %H:%M') }}
+                                    {% endif %}
+
+                                </span>
+
+                            </span>
+
+
+                            <strong
+                                class="
+                                    ss-activity-amount
+                                    {% if is_income %}
+                                        ss-positive
+                                    {% else %}
+                                        ss-negative
+                                    {% endif %}
+                                "
+                            >
+
+                                {% if is_income %}
+                                    +
+                                {% else %}
+                                    -
+                                {% endif %}
+
+                                {{ "%.2f"|format(transaction.amount) }}
+                                EGP
+
+                            </strong>
+
+
+                        </a>
+
+
+                    {% endfor %}
+
+
+                </div>
+
+
+            {% else %}
+
+                <div class="ss-card ss-empty-state">
+
+                    <div class="ss-empty-icon">
+                        ↕
+                    </div>
+
+                    <h3>
+                        No wallet activity
+                    </h3>
+
+                    <p>
+                        Your wallet transactions will appear here.
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+
+        </section>
+
+
+    </main>
+
+
+
+    <!-- =====================================================
+         UNLOCK BALANCE
+         ===================================================== -->
+
+    <div
+        class="wallet-modal"
+        id="unlockBalanceModal"
+        onclick="walletBackdropClose(event, 'unlockBalanceModal')"
+    >
+
+        <div class="wallet-modal-card">
+
+
+            <div class="wallet-lock-icon">
+                ◉
+            </div>
+
+
+            <div class="wallet-lock-copy">
+
+                <h3>
+                    Unlock balance
+                </h3>
+
+                <p>
+                    Enter your 4-digit PIN to reveal your wallet balance.
+                </p>
+
+            </div>
+
+
+            <form
+                action="{{ url_for('unlock_balance') }}"
+                method="POST"
+                class="wallet-modal-form"
+            >
+
+                <input
+                    type="hidden"
+                    name="next_page"
+                    value="wallet"
+                >
+
+
+                <div class="form-group">
+
+                    <label>
+                        PIN
+                    </label>
+
+                    <input
+                        type="password"
+                        name="pin"
+                        inputmode="numeric"
+                        maxlength="4"
+                        pattern="[0-9]{4}"
+                        placeholder="••••"
+                        autofocus
+                        required
+                    >
+
+                </div>
+
+
+                <div class="wallet-modal-actions">
+
+                    <button
+                        type="button"
+                        class="ss-btn ss-btn-light"
+                        onclick="closeWalletModal('unlockBalanceModal')"
+                    >
+                        Cancel
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="ss-btn ss-btn-primary"
+                    >
+                        Show balance
+                    </button>
+
+                </div>
+
+            </form>
+
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =====================================================
+         DEPOSIT
+         ===================================================== -->
+
+    <div
+        class="wallet-modal"
+        id="depositModal"
+        onclick="walletBackdropClose(event, 'depositModal')"
+    >
+
+        <div class="wallet-modal-card">
+
+
+            <div class="wallet-modal-head">
+
+                <div>
+                    <h3>Add money</h3>
+                    <p>Deposit funds to your wallet.</p>
+                </div>
+
+                <button
+                    type="button"
+                    class="wallet-modal-close"
+                    onclick="closeWalletModal('depositModal')"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+            <form
+                action="{{ url_for('deposit') }}"
+                method="POST"
+                class="wallet-modal-form"
+            >
+
+                <div class="form-group">
+
+                    <label>
+                        Amount
+                    </label>
+
+                    <input
+                        type="number"
+                        name="amount"
+                        min="0.01"
+                        step="0.01"
+                        placeholder="0.00 EGP"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="wallet-modal-actions">
+
+                    <button
+                        type="button"
+                        class="ss-btn ss-btn-light"
+                        onclick="closeWalletModal('depositModal')"
+                    >
+                        Cancel
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="ss-btn ss-btn-primary"
+                    >
+                        Add money
+                    </button>
+
+                </div>
+
+            </form>
+
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =====================================================
+         SEND
+         ===================================================== -->
+
+    <div
+        class="wallet-modal"
+        id="sendModal"
+        onclick="walletBackdropClose(event, 'sendModal')"
+    >
+
+        <div class="wallet-modal-card">
+
+
+            <div class="wallet-modal-head">
+
+                <div>
+                    <h3>Send money</h3>
+                    <p>Transfer to another SpendSettle user.</p>
+                </div>
+
+                <button
+                    type="button"
+                    class="wallet-modal-close"
+                    onclick="closeWalletModal('sendModal')"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+            <form
+                action="{{ url_for('transfer') }}"
+                method="POST"
+                class="wallet-modal-form"
+            >
+
+                <div class="form-group">
+
+                    <label>
+                        Username
+                    </label>
+
+                    <input
+                        type="text"
+                        name="receiver_username"
+                        placeholder="@username"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Amount
+                    </label>
+
+                    <input
+                        type="number"
+                        name="amount"
+                        min="0.01"
+                        step="0.01"
+                        placeholder="0.00 EGP"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        PIN
+                    </label>
+
+                    <input
+                        type="password"
+                        name="pin"
+                        inputmode="numeric"
+                        maxlength="4"
+                        pattern="[0-9]{4}"
+                        placeholder="••••"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="wallet-modal-actions">
+
+                    <button
+                        type="button"
+                        class="ss-btn ss-btn-light"
+                        onclick="closeWalletModal('sendModal')"
+                    >
+                        Cancel
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="ss-btn ss-btn-primary"
+                    >
+                        Send
+                    </button>
+
+                </div>
+
+            </form>
+
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =====================================================
+         WITHDRAW
+         ===================================================== -->
+
+    <div
+        class="wallet-modal"
+        id="withdrawModal"
+        onclick="walletBackdropClose(event, 'withdrawModal')"
+    >
+
+        <div class="wallet-modal-card">
+
+
+            <div class="wallet-modal-head">
+
+                <div>
+                    <h3>Withdraw</h3>
+                    <p>Take money out of your wallet.</p>
+                </div>
+
+                <button
+                    type="button"
+                    class="wallet-modal-close"
+                    onclick="closeWalletModal('withdrawModal')"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+            <form
+                action="{{ url_for('withdraw') }}"
+                method="POST"
+                class="wallet-modal-form"
+            >
+
+                <div class="form-group">
+
+                    <label>
+                        Amount
+                    </label>
+
+                    <input
+                        type="number"
+                        name="amount"
+                        min="0.01"
+                        step="0.01"
+                        placeholder="0.00 EGP"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        PIN
+                    </label>
+
+                    <input
+                        type="password"
+                        name="pin"
+                        inputmode="numeric"
+                        maxlength="4"
+                        pattern="[0-9]{4}"
+                        placeholder="••••"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="wallet-modal-actions">
+
+                    <button
+                        type="button"
+                        class="ss-btn ss-btn-light"
+                        onclick="closeWalletModal('withdrawModal')"
+                    >
+                        Cancel
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="ss-btn ss-btn-primary"
+                    >
+                        Withdraw
+                    </button>
+
+                </div>
+
+            </form>
+
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =====================================================
+         PAYMENT
+         ===================================================== -->
+
+    <div
+        class="wallet-modal"
+        id="paymentModal"
+        onclick="walletBackdropClose(event, 'paymentModal')"
+    >
+
+        <div class="wallet-modal-card">
+
+
+            <div class="wallet-modal-head">
+
+                <div>
+                    <h3>Make payment</h3>
+                    <p>Pay with wallet or external card.</p>
+                </div>
+
+                <button
+                    type="button"
+                    class="wallet-modal-close"
+                    onclick="closeWalletModal('paymentModal')"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+            <form
+                action="{{ url_for('make_payment') }}"
+                method="POST"
+                class="wallet-modal-form"
+            >
+
+                <div class="form-group">
+
+                    <label>
+                        Payment method
+                    </label>
+
+                    <select
+                        name="payment_method"
+                        id="walletPaymentMethod"
+                        required
+                    >
+
+                        <option value="">
+                            Select method
+                        </option>
+
+                        <option value="wallet">
+                            Wallet
+                        </option>
+
+                        <option value="card">
+                            Card
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Amount
+                    </label>
+
+                    <input
+                        type="number"
+                        name="amount"
+                        min="0.01"
+                        step="0.01"
+                        placeholder="0.00 EGP"
+                        required
+                    >
+
+                </div>
+
+
+                <div
+                    class="form-group wallet-payment-fields"
+                    id="walletPinFields"
+                >
+
+                    <label>
+                        PIN
+                    </label>
+
+                    <input
+                        type="password"
+                        name="pin"
+                        inputmode="numeric"
+                        maxlength="4"
+                        pattern="[0-9]{4}"
+                        placeholder="••••"
+                    >
+
+                </div>
+
+
+                <div
+                    class="form-group wallet-payment-fields"
+                    id="walletCardFields"
+                >
+
+                    <label>
+                        Card number
+                    </label>
+
+                    <input
+                        type="text"
+                        name="card_number"
+                        inputmode="numeric"
+                        maxlength="19"
+                        placeholder="1234 5678 9012 3456"
+                    >
+
+                </div>
+
+
+                <div class="wallet-modal-actions">
+
+                    <button
+                        type="button"
+                        class="ss-btn ss-btn-light"
+                        onclick="closeWalletModal('paymentModal')"
+                    >
+                        Cancel
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="ss-btn ss-btn-primary"
+                    >
+                        Pay
+                    </button>
+
+                </div>
+
+            </form>
+
+
+        </div>
+
+    </div>
+
+
+
+    <footer class="footer">
+        SpendSettle • Wallet
+    </footer>
+
+
+
+    <script>
+
+        function openWalletModal(id) {
+
+            const modal =
+                document.getElementById(id);
+
+            if (!modal) {
+                return;
+            }
+
+            modal.classList.add("open");
+
+            document.body.style.overflow =
+                "hidden";
+
+        }
+
+
+        function closeWalletModal(id) {
+
+            const modal =
+                document.getElementById(id);
+
+            if (!modal) {
+                return;
+            }
+
+            modal.classList.remove("open");
+
+            document.body.style.overflow =
+                "";
+
+        }
+
+
+        function walletBackdropClose(
+            event,
+            id
+        ) {
+
+            if (
+                event.target
+                === event.currentTarget
+            ) {
+                closeWalletModal(id);
+            }
+
+        }
+
+
+        document.addEventListener(
+            "keydown",
+            function (event) {
+
+                if (
+                    event.key
+                    !== "Escape"
+                ) {
+                    return;
+                }
+
+                document
+                    .querySelectorAll(
+                        ".wallet-modal.open"
+                    )
+                    .forEach(
+                        function (modal) {
+
+                            modal.classList.remove(
+                                "open"
+                            );
+
+                        }
+                    );
+
+                document.body.style.overflow =
+                    "";
+
+            }
+        );
+
+
+        const paymentMethod =
+            document.getElementById(
+                "walletPaymentMethod"
+            );
+
+        const walletPinFields =
+            document.getElementById(
+                "walletPinFields"
+            );
+
+        const walletCardFields =
+            document.getElementById(
+                "walletCardFields"
+            );
+
+
+        if (paymentMethod) {
+
+            paymentMethod.addEventListener(
+                "change",
+                function () {
+
+                    const pinInput =
+                        walletPinFields
+                            .querySelector(
+                                "input"
+                            );
+
+                    const cardInput =
+                        walletCardFields
+                            .querySelector(
+                                "input"
+                            );
+
+
+                    walletPinFields
+                        .classList
+                        .remove(
+                            "visible"
+                        );
+
+                    walletCardFields
+                        .classList
+                        .remove(
+                            "visible"
+                        );
+
+
+                    pinInput.required = false;
+
+                    cardInput.required = false;
+
+
+                    if (
+                        this.value
+                        === "wallet"
+                    ) {
+
+                        walletPinFields
+                            .classList
+                            .add(
+                                "visible"
+                            );
+
+                        pinInput.required = true;
+
+                    }
+
+
+                    if (
+                        this.value
+                        === "card"
+                    ) {
+
+                        walletCardFields
+                            .classList
+                            .add(
+                                "visible"
+                            );
+
+                        cardInput.required = true;
+
+                    }
+
+                }
+            );
+
+        }
+
+
+        const action =
+            new URLSearchParams(
+                window.location.search
+            ).get("action");
+
+
+        const actionModals = {
+            "deposit": "depositModal",
+            "send": "sendModal",
+            "withdraw": "withdrawModal",
+            "pay": "paymentModal",
+            "balance": "unlockBalanceModal"
+        };
+
+
+        if (
+            action
+            && actionModals[action]
+        ) {
+
+            openWalletModal(
+                actionModals[action]
+            );
+
+        }
+
+    </script>
+
+
+</body>
+
+</html>

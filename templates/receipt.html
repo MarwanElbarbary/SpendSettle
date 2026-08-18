@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="theme-color"
+        content="#4f46e5"
+    >
+
+    <title>
+        Receipt | SpendSettle
+    </title>
+
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='brand.css') }}"
+    >
+
+
+    <style>
+
+        .receipt-page {
+            max-width: 670px;
+        }
+
+
+        .receipt-shell {
+            position: relative;
+
+            overflow: hidden;
+
+            padding: 34px;
+
+            text-align: center;
+        }
+
+
+        .receipt-shell::before {
+            content: "";
+
+            position: absolute;
+
+            width: 240px;
+            height: 240px;
+
+            top: -145px;
+            right: -100px;
+
+            border-radius: 50%;
+
+            background:
+                var(--ss-primary-soft);
+        }
+
+
+        .receipt-shell::after {
+            content: "";
+
+            position: absolute;
+
+            width: 170px;
+            height: 170px;
+
+            bottom: -120px;
+            left: -85px;
+
+            border-radius: 50%;
+
+            background:
+                #ecfdf3;
+        }
+
+
+        .receipt-content {
+            position: relative;
+
+            z-index: 2;
+        }
+
+
+        .receipt-status-icon {
+            width: 68px;
+            height: 68px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            margin:
+                0 auto 18px;
+
+            border-radius: 21px;
+
+            background:
+                var(--ss-success-soft);
+
+            color:
+                var(--ss-success-dark);
+
+            font-size: 28px;
+            font-weight: 800;
+
+            animation:
+                receiptSuccessIn
+                500ms
+                cubic-bezier(
+                    0.22,
+                    1,
+                    0.36,
+                    1
+                )
+                both;
+        }
+
+
+        @keyframes receiptSuccessIn {
+
+            from {
+                opacity: 0;
+
+                transform:
+                    scale(0.6)
+                    rotate(-10deg);
+            }
+
+            to {
+                opacity: 1;
+
+                transform:
+                    scale(1)
+                    rotate(0);
+            }
+
+        }
+
+
+        .receipt-status-label {
+            display: block;
+
+            margin-bottom: 8px;
+
+            color:
+                var(--ss-success-dark);
+
+            font-size: 10px;
+            font-weight: 750;
+
+            text-transform: uppercase;
+
+            letter-spacing:
+                0.8px;
+        }
+
+
+        .receipt-title {
+            margin:
+                0 0 9px;
+
+            color:
+                var(--ss-text);
+
+            font-size: 25px;
+
+            letter-spacing:
+                -0.7px;
+        }
+
+
+        .receipt-description {
+            max-width: 430px;
+
+            margin:
+                0 auto;
+
+            color:
+                var(--ss-text-muted);
+
+            font-size: 10px;
+
+            line-height: 1.5;
+        }
+
+
+        .receipt-amount {
+            display: block;
+
+            margin:
+                31px 0 28px;
+
+            color:
+                var(--ss-text);
+
+            font-size:
+                clamp(
+                    36px,
+                    7vw,
+                    48px
+                );
+
+            font-weight: 780;
+
+            letter-spacing:
+                -1.8px;
+        }
+
+
+        .receipt-amount small {
+            margin-left: 5px;
+
+            color:
+                var(--ss-text-muted);
+
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+
+
+        /* =========================================
+           DETAILS
+           ========================================= */
+
+        .receipt-details {
+            width: 100%;
+
+            margin-top: 25px;
+
+            overflow: hidden;
+
+            border:
+                1px solid var(--ss-border);
+
+            border-radius: 13px;
+
+            background:
+                var(--ss-bg-soft);
+
+            text-align: left;
+        }
+
+
+        .receipt-detail-row {
+            display: flex;
+
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 18px;
+
+            min-height: 51px;
+
+            padding:
+                0 15px;
+
+            border-bottom:
+                1px solid var(--ss-border);
+        }
+
+
+        .receipt-detail-row:last-child {
+            border-bottom: none;
+        }
+
+
+        .receipt-detail-row span {
+            color:
+                var(--ss-text-muted);
+
+            font-size: 9px;
+        }
+
+
+        .receipt-detail-row strong {
+            max-width: 65%;
+
+            overflow: hidden;
+
+            text-overflow: ellipsis;
+
+            color:
+                var(--ss-text-secondary);
+
+            font-size: 10px;
+
+            text-align: right;
+
+            white-space: nowrap;
+        }
+
+
+        .receipt-status-badge {
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 5px;
+
+            padding:
+                5px 8px;
+
+            border-radius: 999px;
+
+            background:
+                var(--ss-success-soft);
+
+            color:
+                var(--ss-success-dark) !important;
+
+            font-size: 9px !important;
+        }
+
+
+        .receipt-status-badge::before {
+            content: "";
+
+            width: 5px;
+            height: 5px;
+
+            border-radius: 50%;
+
+            background:
+                var(--ss-success);
+        }
+
+
+
+        /* =========================================
+           ACTIONS
+           ========================================= */
+
+        .receipt-actions {
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap: 9px;
+
+            margin-top: 22px;
+        }
+
+
+
+        /* =========================================
+           TRANSACTION TYPE
+           ========================================= */
+
+        .receipt-type {
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 7px;
+
+            min-height: 29px;
+
+            margin-top: 14px;
+
+            padding:
+                0 10px;
+
+            border-radius: 999px;
+
+            background:
+                var(--ss-primary-soft);
+
+            color:
+                var(--ss-primary-dark);
+
+            font-size: 9px;
+            font-weight: 700;
+        }
+
+
+
+        /* =========================================
+           PRINT
+           ========================================= */
+
+        @media print {
+
+            .ss-navbar,
+            .ss-mobile-nav,
+            .receipt-actions,
+            .footer {
+                display: none !important;
+            }
+
+
+            body {
+                background: white;
+            }
+
+
+            .ss-page {
+                width: 100%;
+
+                padding: 0;
+            }
+
+
+            .receipt-shell {
+                border: none !important;
+
+                box-shadow: none !important;
+            }
+
+        }
+
+
+
+        /* =========================================
+           MOBILE
+           ========================================= */
+
+        @media (max-width: 520px) {
+
+            .receipt-shell {
+                padding:
+                    28px 18px;
+            }
+
+
+            .receipt-actions {
+                grid-template-columns: 1fr;
+            }
+
+
+            .receipt-detail-row {
+                align-items: flex-start;
+
+                flex-direction: column;
+
+                gap: 5px;
+
+                padding:
+                    12px 14px;
+            }
+
+
+            .receipt-detail-row strong {
+                max-width: 100%;
+
+                text-align: left;
+
+                white-space: normal;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body class="dashboard-page">
+
+
+    {% include 'partials/navbar.html' %}
+
+
+    <main class="ss-page receipt-page">
+
+
+        <section class="ss-card receipt-shell">
+
+
+            <div class="receipt-content">
+
+
+                <!-- =====================================
+                     SUCCESS
+                     ===================================== -->
+
+                <div class="receipt-status-icon">
+                    ✓
+                </div>
+
+
+                <span class="receipt-status-label">
+                    Completed
+                </span>
+
+
+                <h1 class="receipt-title">
+                    Transaction complete
+                </h1>
+
+
+                {% if transaction.description %}
+
+                    <p class="receipt-description">
+                        {{ transaction.description }}
+                    </p>
+
+                {% endif %}
+
+
+
+                <!-- =====================================
+                     AMOUNT
+                     ===================================== -->
+
+                <strong class="receipt-amount">
+
+                    {{ "%.2f"|format(transaction.amount) }}
+
+                    <small>
+                        EGP
+                    </small>
+
+                </strong>
+
+
+
+                <!-- =====================================
+                     TYPE
+                     ===================================== -->
+
+                <span class="receipt-type">
+
+                    {% if transaction.transaction_type in [
+                        'Deposit',
+                        'Transfer Received',
+                        'Group Settlement Received'
+                    ] %}
+
+                        ↓
+
+                    {% else %}
+
+                        ↑
+
+                    {% endif %}
+
+                    {{ transaction.transaction_type }}
+
+                </span>
+
+
+
+                <!-- =====================================
+                     DETAILS
+                     ===================================== -->
+
+                <div class="receipt-details">
+
+
+                    <div class="receipt-detail-row">
+
+                        <span>
+                            Status
+                        </span>
+
+                        <strong class="receipt-status-badge">
+
+                            {{ transaction.status|default('Completed') }}
+
+                        </strong>
+
+                    </div>
+
+
+
+                    <div class="receipt-detail-row">
+
+                        <span>
+                            Transaction
+                        </span>
+
+                        <strong>
+                            {{ transaction.transaction_id }}
+                        </strong>
+
+                    </div>
+
+
+
+                    <div class="receipt-detail-row">
+
+                        <span>
+                            Type
+                        </span>
+
+                        <strong>
+                            {{ transaction.transaction_type }}
+                        </strong>
+
+                    </div>
+
+
+
+                    {% if transaction.description %}
+
+                        <div class="receipt-detail-row">
+
+                            <span>
+                                Details
+                            </span>
+
+                            <strong>
+                                {{ transaction.description }}
+                            </strong>
+
+                        </div>
+
+                    {% endif %}
+
+
+
+                    <div class="receipt-detail-row">
+
+                        <span>
+                            Date
+                        </span>
+
+                        <strong>
+
+                            {{ transaction.date.strftime('%d %b %Y, %H:%M') }}
+
+                        </strong>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- =====================================
+                     ACTIONS
+                     ===================================== -->
+
+                <div class="receipt-actions">
+
+
+                    <button
+                        type="button"
+                        class="ss-btn ss-btn-light"
+                        onclick="window.print()"
+                    >
+                        Print receipt
+                    </button>
+
+
+                    <a
+                        href="{{ url_for('dashboard') }}"
+                        class="ss-btn ss-btn-primary"
+                    >
+                        Done →
+                    </a>
+
+
+                </div>
+
+
+            </div>
+
+
+        </section>
+
+
+    </main>
+
+
+    <footer class="footer">
+        SpendSettle • Secure receipt
+    </footer>
+
+
+</body>
+
+</html>

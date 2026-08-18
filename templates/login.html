@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="theme-color"
+        content="#101828"
+    >
+
+    <title>
+        Sign in | SpendSettle
+    </title>
+
+
+    <!-- =========================================
+         SpendSettle Design System
+         ========================================= -->
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='brand.css') }}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='auth.css') }}"
+    >
+
+</head>
+
+
+<body class="ss-auth-page">
+
+
+    <main class="ss-auth-layout">
+
+
+        <!-- =================================================
+             LEFT SIDE
+             ================================================= -->
+
+        <section class="ss-auth-visual">
+
+
+            <!-- Background Grid -->
+
+            <div
+                class="ss-auth-grid-bg"
+                aria-hidden="true"
+            ></div>
+
+
+            <div class="ss-auth-visual-content">
+
+
+                <!-- =========================================
+                     Brand
+                     ========================================= -->
+
+                <a
+                    href="{{ url_for('login') }}"
+                    class="ss-auth-brand"
+                >
+
+                    <span class="ss-auth-brand-mark">
+
+                        <span>
+                            S
+                        </span>
+
+                    </span>
+
+
+                    <span class="ss-auth-brand-name">
+
+                        Spend<strong>Settle</strong>
+
+                    </span>
+
+                </a>
+
+
+                <!-- =========================================
+                     Hero
+                     ========================================= -->
+
+                <div class="ss-auth-hero">
+
+
+                    <div class="ss-auth-eyebrow">
+
+                        <span class="ss-auth-eyebrow-dot"></span>
+
+                        Smarter money management
+
+                    </div>
+
+
+                    <h1>
+
+                        Track it.
+                        <br>
+
+                        Split it.
+                        <br>
+
+                        <span>
+                            Settle it.
+                        </span>
+
+                    </h1>
+
+
+                    <p>
+
+                        Manage your money, split expenses
+                        with friends and settle balances
+                        from one place.
+
+                    </p>
+
+
+                    <!-- =====================================
+                         Features
+                         ===================================== -->
+
+                    <div class="ss-auth-features">
+
+
+                        <div class="ss-auth-feature">
+
+                            <span>
+                                ✓
+                            </span>
+
+                            <span>
+                                Track spending
+                            </span>
+
+                        </div>
+
+
+                        <div class="ss-auth-feature">
+
+                            <span>
+                                ⇄
+                            </span>
+
+                            <span>
+                                Split expenses
+                            </span>
+
+                        </div>
+
+
+                        <div class="ss-auth-feature">
+
+                            <span>
+                                ✓
+                            </span>
+
+                            <span>
+                                Settle instantly
+                            </span>
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+
+                <!-- =========================================
+                     Animated Finance Demo
+                     ========================================= -->
+
+                <div
+                    class="ss-auth-demo"
+                    aria-hidden="true"
+                >
+
+
+                    <!-- Main Balance Card -->
+
+                    <div class="ss-demo-balance">
+
+
+                        <span class="ss-demo-label">
+                            Available balance
+                        </span>
+
+
+                        <strong class="ss-demo-amount">
+
+                            8,450.00
+
+                            <small>
+                                EGP
+                            </small>
+
+                        </strong>
+
+
+                        <div class="ss-demo-balance-footer">
+
+
+                            <div>
+
+                                <span>
+                                    This month
+                                </span>
+
+                                <strong>
+                                    2,840 EGP
+                                </strong>
+
+                            </div>
+
+
+                            <div>
+
+                                <span>
+                                    Budget left
+                                </span>
+
+                                <strong>
+                                    2,160 EGP
+                                </strong>
+
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+
+
+                    <!-- Income -->
+
+                    <div class="ss-demo-income">
+
+                        <span>
+                            Received
+                        </span>
+
+                        <strong>
+                            +850.00 EGP
+                        </strong>
+
+                    </div>
+
+
+                    <!-- Settlement -->
+
+                    <div class="ss-demo-settled">
+
+
+                        <div class="ss-demo-settled-icon">
+
+                            ✓
+
+                        </div>
+
+
+                        <div class="ss-demo-settled-info">
+
+                            <strong>
+                                Payment settled
+                            </strong>
+
+                            <span>
+                                Group balance updated
+                            </span>
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+            <div class="ss-auth-copyright">
+
+                © 2026 SpendSettle
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =================================================
+             RIGHT SIDE
+             ================================================= -->
+
+        <section class="ss-auth-panel">
+
+
+            <div class="ss-auth-form-shell">
+
+
+                <!-- =========================================
+                     Mobile Brand
+                     ========================================= -->
+
+                <a
+                    href="{{ url_for('login') }}"
+                    class="ss-auth-mobile-brand"
+                >
+
+                    <span class="ss-auth-brand-mark">
+
+                        <span>
+                            S
+                        </span>
+
+                    </span>
+
+
+                    <span class="ss-auth-brand-name">
+
+                        Spend<strong>Settle</strong>
+
+                    </span>
+
+                </a>
+
+
+                <!-- =========================================
+                     Header
+                     ========================================= -->
+
+                <div class="ss-auth-form-header">
+
+                    <h2>
+                        Welcome back
+                    </h2>
+
+                    <p>
+                        Sign in to continue to SpendSettle.
+                    </p>
+
+                </div>
+
+
+
+                <!-- =========================================
+                     Flask Flash Messages
+                     ========================================= -->
+
+                {% with messages = get_flashed_messages(with_categories=true) %}
+
+                    {% if messages %}
+
+                        {% for category, message in messages %}
+
+
+                            {% if category == 'success' %}
+
+                                <div class="ss-auth-success">
+
+                                    <span>
+                                        ✓
+                                    </span>
+
+                                    <span>
+                                        {{ message }}
+                                    </span>
+
+                                </div>
+
+
+                            {% else %}
+
+                                <div class="ss-auth-error">
+
+                                    <span class="ss-auth-error-icon">
+                                        !
+                                    </span>
+
+                                    <span>
+                                        {{ message }}
+                                    </span>
+
+                                </div>
+
+                            {% endif %}
+
+
+                        {% endfor %}
+
+                    {% endif %}
+
+                {% endwith %}
+
+
+
+                <!-- =========================================
+                     Login Error
+                     ========================================= -->
+
+                {% if error %}
+
+                    <div class="ss-auth-error">
+
+                        <span class="ss-auth-error-icon">
+                            !
+                        </span>
+
+                        <span>
+                            {{ error }}
+                        </span>
+
+                    </div>
+
+                {% endif %}
+
+
+
+                <!-- =========================================
+                     Login Form
+                     ========================================= -->
+
+                <form
+                    action="{{ url_for('login') }}"
+                    method="POST"
+                    class="ss-auth-form"
+                    id="loginForm"
+                >
+
+
+                    <!-- =====================================
+                         Username
+                         ===================================== -->
+
+                    <div class="ss-auth-field">
+
+                        <label for="username">
+                            Username
+                        </label>
+
+
+                        <div class="ss-auth-input-wrap">
+
+                            <input
+                                type="text"
+                                id="username"
+                                name="username"
+                                placeholder="Enter your username"
+                                autocomplete="username"
+                                maxlength="50"
+                                autofocus
+                                required
+                            >
+
+
+                            <span
+                                class="ss-auth-input-icon"
+                                aria-hidden="true"
+                            >
+
+                                <svg
+                                    width="17"
+                                    height="17"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+
+                                    <path
+                                        d="M20 21C20 17.6863 16.4183 15 12 15C7.58172 15 4 17.6863 4 21"
+                                        stroke="currentColor"
+                                        stroke-width="1.8"
+                                        stroke-linecap="round"
+                                    />
+
+                                    <circle
+                                        cx="12"
+                                        cy="7"
+                                        r="4"
+                                        stroke="currentColor"
+                                        stroke-width="1.8"
+                                    />
+
+                                </svg>
+
+                            </span>
+
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- =====================================
+                         PIN
+                         ===================================== -->
+
+                    <div class="ss-auth-field">
+
+                        <label for="pin">
+                            PIN
+                        </label>
+
+
+                        <div class="ss-auth-input-wrap">
+
+                            <input
+                                type="password"
+                                id="pin"
+                                name="pin"
+                                placeholder="Enter your 4-digit PIN"
+                                inputmode="numeric"
+                                autocomplete="current-password"
+                                minlength="4"
+                                maxlength="4"
+                                pattern="[0-9]{4}"
+                                required
+                            >
+
+
+                            <button
+                                type="button"
+                                class="ss-password-toggle"
+                                id="togglePin"
+                                aria-label="Show PIN"
+                                title="Show PIN"
+                            >
+
+
+                                <!-- Eye Open -->
+
+                                <svg
+                                    id="eyeOpen"
+                                    width="17"
+                                    height="17"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+
+                                    <path
+                                        d="M2.5 12C4.7 7.9 8 5.5 12 5.5C16 5.5 19.3 7.9 21.5 12C19.3 16.1 16 18.5 12 18.5C8 18.5 4.7 16.1 2.5 12Z"
+                                        stroke="currentColor"
+                                        stroke-width="1.7"
+                                        stroke-linejoin="round"
+                                    />
+
+                                    <circle
+                                        cx="12"
+                                        cy="12"
+                                        r="2.7"
+                                        stroke="currentColor"
+                                        stroke-width="1.7"
+                                    />
+
+                                </svg>
+
+
+                                <!-- Eye Closed -->
+
+                                <svg
+                                    id="eyeClosed"
+                                    width="17"
+                                    height="17"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    style="display: none;"
+                                >
+
+                                    <path
+                                        d="M3 3L21 21"
+                                        stroke="currentColor"
+                                        stroke-width="1.8"
+                                        stroke-linecap="round"
+                                    />
+
+                                    <path
+                                        d="M10.6 5.7C11.05 5.57 11.52 5.5 12 5.5C16 5.5 19.3 7.9 21.5 12C20.77 13.36 19.91 14.52 18.93 15.45"
+                                        stroke="currentColor"
+                                        stroke-width="1.7"
+                                        stroke-linecap="round"
+                                    />
+
+                                    <path
+                                        d="M15.7 17.52C14.58 18.16 13.34 18.5 12 18.5C8 18.5 4.7 16.1 2.5 12C3.27 10.57 4.18 9.36 5.22 8.33"
+                                        stroke="currentColor"
+                                        stroke-width="1.7"
+                                        stroke-linecap="round"
+                                    />
+
+                                </svg>
+
+
+                            </button>
+
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- =====================================
+                         Security Note
+                         ===================================== -->
+
+                    <div class="ss-auth-meta">
+
+                        <div class="ss-auth-security">
+
+                            <span class="ss-auth-security-dot"></span>
+
+                            Secure sign in
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- =====================================
+                         Submit
+                         ===================================== -->
+
+                    <button
+                        type="submit"
+                        class="ss-auth-submit"
+                        id="loginButton"
+                    >
+
+                        <span>
+                            Sign in
+                        </span>
+
+                        <span class="ss-auth-submit-arrow">
+                            →
+                        </span>
+
+                    </button>
+
+
+                </form>
+
+
+
+                <!-- =========================================
+                     Register Link
+                     ========================================= -->
+
+                <div class="ss-auth-footer">
+
+                    New to SpendSettle?
+
+                    <a href="{{ url_for('register') }}">
+                        Create account
+                    </a>
+
+                </div>
+
+
+            </div>
+
+
+        </section>
+
+
+    </main>
+
+
+
+    <!-- =====================================================
+         LOGIN INTERACTIONS
+         ===================================================== -->
+
+    <script>
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function () {
+
+
+                // =============================================
+                // PIN SHOW / HIDE
+                // =============================================
+
+                const pinInput =
+                    document.getElementById("pin");
+
+                const togglePin =
+                    document.getElementById("togglePin");
+
+                const eyeOpen =
+                    document.getElementById("eyeOpen");
+
+                const eyeClosed =
+                    document.getElementById("eyeClosed");
+
+
+                if (
+                    pinInput
+                    && togglePin
+                ) {
+
+                    togglePin.addEventListener(
+                        "click",
+                        function () {
+
+                            const isHidden =
+                                pinInput.type
+                                === "password";
+
+
+                            pinInput.type =
+                                isHidden
+                                    ? "text"
+                                    : "password";
+
+
+                            eyeOpen.style.display =
+                                isHidden
+                                    ? "none"
+                                    : "block";
+
+
+                            eyeClosed.style.display =
+                                isHidden
+                                    ? "block"
+                                    : "none";
+
+
+                            togglePin.setAttribute(
+                                "aria-label",
+                                isHidden
+                                    ? "Hide PIN"
+                                    : "Show PIN"
+                            );
+
+
+                            togglePin.setAttribute(
+                                "title",
+                                isHidden
+                                    ? "Hide PIN"
+                                    : "Show PIN"
+                            );
+
+
+                            pinInput.focus();
+
+                        }
+                    );
+
+                }
+
+
+
+                // =============================================
+                // NUMERIC PIN ONLY
+                // =============================================
+
+                if (pinInput) {
+
+                    pinInput.addEventListener(
+                        "input",
+                        function () {
+
+                            this.value =
+                                this.value
+                                    .replace(
+                                        /\D/g,
+                                        ""
+                                    )
+                                    .slice(
+                                        0,
+                                        4
+                                    );
+
+                        }
+                    );
+
+                }
+
+
+
+                // =============================================
+                // SUBMIT STATE
+                // =============================================
+
+                const loginForm =
+                    document.getElementById(
+                        "loginForm"
+                    );
+
+                const loginButton =
+                    document.getElementById(
+                        "loginButton"
+                    );
+
+
+                if (
+                    loginForm
+                    && loginButton
+                ) {
+
+                    loginForm.addEventListener(
+                        "submit",
+                        function () {
+
+                            if (
+                                !loginForm
+                                    .checkValidity()
+                            ) {
+                                return;
+                            }
+
+
+                            loginButton.disabled =
+                                true;
+
+
+                            loginButton.innerHTML =
+                                `
+                                <span>
+                                    Signing in...
+                                </span>
+
+                                <span
+                                    class="ss-auth-submit-arrow"
+                                >
+                                    →
+                                </span>
+                                `;
+
+                        }
+                    );
+
+                }
+
+            }
+        );
+
+    </script>
+
+
+</body>
+
+</html>

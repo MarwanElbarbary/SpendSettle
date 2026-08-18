@@ -1,0 +1,1241 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="theme-color"
+        content="#101828"
+    >
+
+    <title>
+        Create account | SpendSettle
+    </title>
+
+
+    <!-- =========================================
+         SpendSettle Design System
+         ========================================= -->
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='brand.css') }}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='auth.css') }}"
+    >
+
+</head>
+
+
+<body class="ss-auth-page">
+
+
+    <main class="ss-auth-layout ss-register-layout">
+
+
+        <!-- =================================================
+             LEFT SIDE
+             ================================================= -->
+
+        <section class="ss-auth-visual">
+
+
+            <!-- Background Grid -->
+
+            <div
+                class="ss-auth-grid-bg"
+                aria-hidden="true"
+            ></div>
+
+
+            <div class="ss-auth-visual-content">
+
+
+                <!-- =========================================
+                     Brand
+                     ========================================= -->
+
+                <a
+                    href="{{ url_for('login') }}"
+                    class="ss-auth-brand"
+                >
+
+                    <span class="ss-auth-brand-mark">
+
+                        <span>
+                            S
+                        </span>
+
+                    </span>
+
+
+                    <span class="ss-auth-brand-name">
+
+                        Spend<strong>Settle</strong>
+
+                    </span>
+
+                </a>
+
+
+                <!-- =========================================
+                     Hero
+                     ========================================= -->
+
+                <div class="ss-auth-hero">
+
+
+                    <div class="ss-auth-eyebrow">
+
+                        <span class="ss-auth-eyebrow-dot"></span>
+
+                        Your money, organized
+
+                    </div>
+
+
+                    <h1>
+
+                        Spend smarter.
+                        <br>
+
+                        Split easier.
+                        <br>
+
+                        <span>
+                            Stay settled.
+                        </span>
+
+                    </h1>
+
+
+                    <p>
+
+                        Track personal spending, manage
+                        shared expenses and settle money
+                        with the people that matter.
+
+                    </p>
+
+
+                    <!-- =====================================
+                         Features
+                         ===================================== -->
+
+                    <div class="ss-auth-features">
+
+
+                        <div class="ss-auth-feature">
+
+                            <span>
+                                ✓
+                            </span>
+
+                            <span>
+                                Personal budget
+                            </span>
+
+                        </div>
+
+
+                        <div class="ss-auth-feature">
+
+                            <span>
+                                ⇄
+                            </span>
+
+                            <span>
+                                Shared groups
+                            </span>
+
+                        </div>
+
+
+                        <div class="ss-auth-feature">
+
+                            <span>
+                                %
+                            </span>
+
+                            <span>
+                                Custom splits
+                            </span>
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+
+                <!-- =========================================
+                     Finance Demo
+                     ========================================= -->
+
+                <div
+                    class="ss-auth-demo"
+                    aria-hidden="true"
+                >
+
+
+                    <!-- Main Balance Card -->
+
+                    <div class="ss-demo-balance">
+
+
+                        <span class="ss-demo-label">
+                            Monthly overview
+                        </span>
+
+
+                        <strong class="ss-demo-amount">
+
+                            3,280.00
+
+                            <small>
+                                EGP spent
+                            </small>
+
+                        </strong>
+
+
+                        <div class="ss-demo-balance-footer">
+
+
+                            <div>
+
+                                <span>
+                                    Budget
+                                </span>
+
+                                <strong>
+                                    5,000 EGP
+                                </strong>
+
+                            </div>
+
+
+                            <div>
+
+                                <span>
+                                    Remaining
+                                </span>
+
+                                <strong>
+                                    1,720 EGP
+                                </strong>
+
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+
+
+                    <!-- Group Card -->
+
+                    <div class="ss-demo-income">
+
+                        <span>
+                            Group balance
+                        </span>
+
+                        <strong>
+                            +620.00 EGP
+                        </strong>
+
+                    </div>
+
+
+                    <!-- Settled -->
+
+                    <div class="ss-demo-settled">
+
+
+                        <div class="ss-demo-settled-icon">
+
+                            ✓
+
+                        </div>
+
+
+                        <div class="ss-demo-settled-info">
+
+                            <strong>
+                                All settled up
+                            </strong>
+
+                            <span>
+                                No outstanding balance
+                            </span>
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+            <div class="ss-auth-copyright">
+
+                © 2026 SpendSettle
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =================================================
+             RIGHT SIDE
+             ================================================= -->
+
+        <section class="ss-auth-panel">
+
+
+            <div class="ss-auth-form-shell">
+
+
+                <!-- =========================================
+                     Mobile Brand
+                     ========================================= -->
+
+                <a
+                    href="{{ url_for('login') }}"
+                    class="ss-auth-mobile-brand"
+                >
+
+                    <span class="ss-auth-brand-mark">
+
+                        <span>
+                            S
+                        </span>
+
+                    </span>
+
+
+                    <span class="ss-auth-brand-name">
+
+                        Spend<strong>Settle</strong>
+
+                    </span>
+
+                </a>
+
+
+                <!-- =========================================
+                     Header
+                     ========================================= -->
+
+                <div class="ss-auth-form-header">
+
+                    <h2>
+                        Create your account
+                    </h2>
+
+                    <p>
+                        Start managing your money in one place.
+                    </p>
+
+                </div>
+
+
+
+                <!-- =========================================
+                     Flash Messages
+                     ========================================= -->
+
+                {% with messages = get_flashed_messages(with_categories=true) %}
+
+                    {% if messages %}
+
+                        {% for category, message in messages %}
+
+
+                            {% if category == 'success' %}
+
+                                <div class="ss-auth-success">
+
+                                    <span>
+                                        ✓
+                                    </span>
+
+                                    <span>
+                                        {{ message }}
+                                    </span>
+
+                                </div>
+
+
+                            {% else %}
+
+                                <div class="ss-auth-error">
+
+                                    <span class="ss-auth-error-icon">
+                                        !
+                                    </span>
+
+                                    <span>
+                                        {{ message }}
+                                    </span>
+
+                                </div>
+
+                            {% endif %}
+
+
+                        {% endfor %}
+
+                    {% endif %}
+
+                {% endwith %}
+
+
+
+                <!-- =========================================
+                     Register Error
+                     ========================================= -->
+
+                {% if error %}
+
+                    <div class="ss-auth-error">
+
+                        <span class="ss-auth-error-icon">
+                            !
+                        </span>
+
+                        <span>
+                            {{ error }}
+                        </span>
+
+                    </div>
+
+                {% endif %}
+
+
+
+                <!-- =========================================
+                     Register Form
+                     ========================================= -->
+
+                <form
+                    action="{{ url_for('register') }}"
+                    method="POST"
+                    class="ss-auth-form"
+                    id="registerForm"
+                >
+
+
+                    <div class="ss-register-grid">
+
+
+                        <!-- =================================
+                             Full Name
+                             ================================= -->
+
+                        <div class="ss-auth-field ss-auth-field-full">
+
+                            <label for="name">
+                                Full name
+                            </label>
+
+
+                            <div class="ss-auth-input-wrap">
+
+                                <input
+                                    type="text"
+                                    id="name"
+                                    name="name"
+                                    placeholder="Enter your full name"
+                                    autocomplete="name"
+                                    maxlength="80"
+                                    autofocus
+                                    required
+                                >
+
+
+                                <span
+                                    class="ss-auth-input-icon"
+                                    aria-hidden="true"
+                                >
+
+                                    <svg
+                                        width="17"
+                                        height="17"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
+
+                                        <path
+                                            d="M20 21C20 17.6863 16.4183 15 12 15C7.58172 15 4 17.6863 4 21"
+                                            stroke="currentColor"
+                                            stroke-width="1.8"
+                                            stroke-linecap="round"
+                                        />
+
+                                        <circle
+                                            cx="12"
+                                            cy="7"
+                                            r="4"
+                                            stroke="currentColor"
+                                            stroke-width="1.8"
+                                        />
+
+                                    </svg>
+
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- =================================
+                             Username
+                             ================================= -->
+
+                        <div class="ss-auth-field">
+
+                            <label for="username">
+                                Username
+                            </label>
+
+
+                            <div class="ss-auth-input-wrap">
+
+                                <input
+                                    type="text"
+                                    id="username"
+                                    name="username"
+                                    placeholder="e.g. marwan"
+                                    autocomplete="username"
+                                    maxlength="50"
+                                    pattern="[A-Za-z0-9_.-]+"
+                                    required
+                                >
+
+
+                                <span
+                                    class="ss-auth-input-icon"
+                                    aria-hidden="true"
+                                >
+
+                                    @
+
+                                </span>
+
+                            </div>
+
+
+                            <p class="ss-field-hint">
+                                Letters, numbers, dots, dashes and underscores.
+                            </p>
+
+                        </div>
+
+
+
+                        <!-- =================================
+                             Phone
+                             ================================= -->
+
+                        <div class="ss-auth-field">
+
+                            <label for="phone">
+                                Phone
+                            </label>
+
+
+                            <div class="ss-auth-input-wrap">
+
+                                <input
+                                    type="tel"
+                                    id="phone"
+                                    name="phone"
+                                    placeholder="01xxxxxxxxx"
+                                    autocomplete="tel"
+                                    inputmode="tel"
+                                    maxlength="20"
+                                    required
+                                >
+
+
+                                <span
+                                    class="ss-auth-input-icon"
+                                    aria-hidden="true"
+                                >
+
+                                    <svg
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
+
+                                        <path
+                                            d="M5.2 3.5L8.5 3C9.1 2.9 9.7 3.3 9.9 3.9L11 7C11.2 7.5 11 8.1 10.6 8.4L8.8 9.8C9.9 12.2 11.8 14.1 14.2 15.2L15.6 13.4C15.9 13 16.5 12.8 17 13L20.1 14.1C20.7 14.3 21.1 14.9 21 15.5L20.5 18.8C20.4 19.5 19.8 20 19.1 20C10.8 20 4 13.2 4 4.9C4 4.2 4.5 3.6 5.2 3.5Z"
+                                            stroke="currentColor"
+                                            stroke-width="1.7"
+                                            stroke-linejoin="round"
+                                        />
+
+                                    </svg>
+
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- =================================
+                             PIN
+                             ================================= -->
+
+                        <div class="ss-auth-field">
+
+                            <label for="pin">
+                                PIN
+                            </label>
+
+
+                            <div class="ss-auth-input-wrap">
+
+                                <input
+                                    type="password"
+                                    id="pin"
+                                    name="pin"
+                                    placeholder="4 digits"
+                                    inputmode="numeric"
+                                    autocomplete="new-password"
+                                    minlength="4"
+                                    maxlength="4"
+                                    pattern="[0-9]{4}"
+                                    required
+                                >
+
+
+                                <button
+                                    type="button"
+                                    class="ss-password-toggle"
+                                    id="togglePin"
+                                    aria-label="Show PIN"
+                                    title="Show PIN"
+                                >
+
+                                    <svg
+                                        id="pinEyeOpen"
+                                        width="17"
+                                        height="17"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
+
+                                        <path
+                                            d="M2.5 12C4.7 7.9 8 5.5 12 5.5C16 5.5 19.3 7.9 21.5 12C19.3 16.1 16 18.5 12 18.5C8 18.5 4.7 16.1 2.5 12Z"
+                                            stroke="currentColor"
+                                            stroke-width="1.7"
+                                        />
+
+                                        <circle
+                                            cx="12"
+                                            cy="12"
+                                            r="2.7"
+                                            stroke="currentColor"
+                                            stroke-width="1.7"
+                                        />
+
+                                    </svg>
+
+
+                                    <svg
+                                        id="pinEyeClosed"
+                                        width="17"
+                                        height="17"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        style="display: none;"
+                                    >
+
+                                        <path
+                                            d="M3 3L21 21"
+                                            stroke="currentColor"
+                                            stroke-width="1.8"
+                                            stroke-linecap="round"
+                                        />
+
+                                    </svg>
+
+                                </button>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- =================================
+                             Confirm PIN
+                             ================================= -->
+
+                        <div class="ss-auth-field">
+
+                            <label for="confirm_pin">
+                                Confirm PIN
+                            </label>
+
+
+                            <div class="ss-auth-input-wrap">
+
+                                <input
+                                    type="password"
+                                    id="confirm_pin"
+                                    name="confirm_pin"
+                                    placeholder="Repeat PIN"
+                                    inputmode="numeric"
+                                    autocomplete="new-password"
+                                    minlength="4"
+                                    maxlength="4"
+                                    pattern="[0-9]{4}"
+                                    required
+                                >
+
+
+                                <button
+                                    type="button"
+                                    class="ss-password-toggle"
+                                    id="toggleConfirmPin"
+                                    aria-label="Show PIN"
+                                    title="Show PIN"
+                                >
+
+                                    <svg
+                                        id="confirmEyeOpen"
+                                        width="17"
+                                        height="17"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
+
+                                        <path
+                                            d="M2.5 12C4.7 7.9 8 5.5 12 5.5C16 5.5 19.3 7.9 21.5 12C19.3 16.1 16 18.5 12 18.5C8 18.5 4.7 16.1 2.5 12Z"
+                                            stroke="currentColor"
+                                            stroke-width="1.7"
+                                        />
+
+                                        <circle
+                                            cx="12"
+                                            cy="12"
+                                            r="2.7"
+                                            stroke="currentColor"
+                                            stroke-width="1.7"
+                                        />
+
+                                    </svg>
+
+
+                                    <svg
+                                        id="confirmEyeClosed"
+                                        width="17"
+                                        height="17"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        style="display: none;"
+                                    >
+
+                                        <path
+                                            d="M3 3L21 21"
+                                            stroke="currentColor"
+                                            stroke-width="1.8"
+                                            stroke-linecap="round"
+                                        />
+
+                                    </svg>
+
+                                </button>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <!-- =====================================
+                         PIN Match Message
+                         ===================================== -->
+
+                    <div
+                        id="pinMatchMessage"
+                        class="ss-field-hint"
+                    >
+                        PIN must contain exactly 4 digits.
+                    </div>
+
+
+
+                    <!-- =====================================
+                         Security
+                         ===================================== -->
+
+                    <div class="ss-auth-meta">
+
+                        <div class="ss-auth-security">
+
+                            <span class="ss-auth-security-dot"></span>
+
+                            Secure account setup
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- =====================================
+                         Submit
+                         ===================================== -->
+
+                    <button
+                        type="submit"
+                        class="ss-auth-submit"
+                        id="registerButton"
+                    >
+
+                        <span>
+                            Create account
+                        </span>
+
+                        <span class="ss-auth-submit-arrow">
+                            →
+                        </span>
+
+                    </button>
+
+
+                </form>
+
+
+
+                <!-- =========================================
+                     Login Link
+                     ========================================= -->
+
+                <div class="ss-auth-footer">
+
+                    Already have an account?
+
+                    <a href="{{ url_for('login') }}">
+                        Sign in
+                    </a>
+
+                </div>
+
+
+            </div>
+
+
+        </section>
+
+
+    </main>
+
+
+
+    <!-- =====================================================
+         REGISTER INTERACTIONS
+         ===================================================== -->
+
+    <script>
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function () {
+
+
+                // =============================================
+                // ELEMENTS
+                // =============================================
+
+                const pin =
+                    document.getElementById(
+                        "pin"
+                    );
+
+                const confirmPin =
+                    document.getElementById(
+                        "confirm_pin"
+                    );
+
+                const registerForm =
+                    document.getElementById(
+                        "registerForm"
+                    );
+
+                const registerButton =
+                    document.getElementById(
+                        "registerButton"
+                    );
+
+                const matchMessage =
+                    document.getElementById(
+                        "pinMatchMessage"
+                    );
+
+
+                // =============================================
+                // NUMERIC PIN ONLY
+                // =============================================
+
+                function keepNumericPin(input) {
+
+                    if (!input) {
+                        return;
+                    }
+
+
+                    input.addEventListener(
+                        "input",
+                        function () {
+
+                            this.value =
+                                this.value
+                                    .replace(
+                                        /\D/g,
+                                        ""
+                                    )
+                                    .slice(
+                                        0,
+                                        4
+                                    );
+
+
+                            checkPinMatch();
+
+                        }
+                    );
+
+                }
+
+
+                keepNumericPin(pin);
+                keepNumericPin(confirmPin);
+
+
+
+                // =============================================
+                // SHOW / HIDE PIN
+                // =============================================
+
+                function setupPasswordToggle(
+                    buttonId,
+                    input,
+                    openEyeId,
+                    closedEyeId
+                ) {
+
+                    const button =
+                        document.getElementById(
+                            buttonId
+                        );
+
+                    const openEye =
+                        document.getElementById(
+                            openEyeId
+                        );
+
+                    const closedEye =
+                        document.getElementById(
+                            closedEyeId
+                        );
+
+
+                    if (
+                        !button
+                        || !input
+                    ) {
+                        return;
+                    }
+
+
+                    button.addEventListener(
+                        "click",
+                        function () {
+
+                            const hidden =
+                                input.type
+                                === "password";
+
+
+                            input.type =
+                                hidden
+                                    ? "text"
+                                    : "password";
+
+
+                            if (openEye) {
+
+                                openEye.style.display =
+                                    hidden
+                                        ? "none"
+                                        : "block";
+
+                            }
+
+
+                            if (closedEye) {
+
+                                closedEye.style.display =
+                                    hidden
+                                        ? "block"
+                                        : "none";
+
+                            }
+
+
+                            button.setAttribute(
+                                "aria-label",
+                                hidden
+                                    ? "Hide PIN"
+                                    : "Show PIN"
+                            );
+
+
+                            button.setAttribute(
+                                "title",
+                                hidden
+                                    ? "Hide PIN"
+                                    : "Show PIN"
+                            );
+
+
+                            input.focus();
+
+                        }
+                    );
+
+                }
+
+
+                setupPasswordToggle(
+                    "togglePin",
+                    pin,
+                    "pinEyeOpen",
+                    "pinEyeClosed"
+                );
+
+
+                setupPasswordToggle(
+                    "toggleConfirmPin",
+                    confirmPin,
+                    "confirmEyeOpen",
+                    "confirmEyeClosed"
+                );
+
+
+
+                // =============================================
+                // PIN MATCH
+                // =============================================
+
+                function checkPinMatch() {
+
+                    if (
+                        !pin
+                        || !confirmPin
+                        || !matchMessage
+                    ) {
+                        return true;
+                    }
+
+
+                    const pinValue =
+                        pin.value;
+
+                    const confirmValue =
+                        confirmPin.value;
+
+
+                    if (
+                        pinValue.length === 0
+                        && confirmValue.length === 0
+                    ) {
+
+                        matchMessage.textContent =
+                            "PIN must contain exactly 4 digits.";
+
+                        matchMessage.style.color =
+                            "";
+
+                        return false;
+
+                    }
+
+
+                    if (
+                        pinValue.length < 4
+                        || confirmValue.length < 4
+                    ) {
+
+                        matchMessage.textContent =
+                            "Enter 4 digits in both PIN fields.";
+
+                        matchMessage.style.color =
+                            "#98a2b3";
+
+                        return false;
+
+                    }
+
+
+                    if (
+                        pinValue !== confirmValue
+                    ) {
+
+                        matchMessage.textContent =
+                            "PINs do not match.";
+
+                        matchMessage.style.color =
+                            "#b42318";
+
+                        return false;
+
+                    }
+
+
+                    matchMessage.textContent =
+                        "✓ PINs match.";
+
+                    matchMessage.style.color =
+                        "#027a48";
+
+                    return true;
+
+                }
+
+
+
+                // =============================================
+                // FORM SUBMIT
+                // =============================================
+
+                if (
+                    registerForm
+                    && registerButton
+                ) {
+
+                    registerForm.addEventListener(
+                        "submit",
+                        function (event) {
+
+
+                            if (
+                                !registerForm
+                                    .checkValidity()
+                            ) {
+                                return;
+                            }
+
+
+                            if (!checkPinMatch()) {
+
+                                event.preventDefault();
+
+                                confirmPin.focus();
+
+                                return;
+
+                            }
+
+
+                            registerButton.disabled =
+                                true;
+
+
+                            registerButton.innerHTML =
+                                `
+                                <span>
+                                    Creating account...
+                                </span>
+
+                                <span
+                                    class="ss-auth-submit-arrow"
+                                >
+                                    →
+                                </span>
+                                `;
+
+                        }
+                    );
+
+                }
+
+
+
+                // =============================================
+                // USERNAME CLEANUP
+                // =============================================
+
+                const usernameInput =
+                    document.getElementById(
+                        "username"
+                    );
+
+
+                if (usernameInput) {
+
+                    usernameInput.addEventListener(
+                        "input",
+                        function () {
+
+                            this.value =
+                                this.value.replace(
+                                    /[^A-Za-z0-9_.-]/g,
+                                    ""
+                                );
+
+                        }
+                    );
+
+                }
+
+
+            }
+        );
+
+    </script>
+
+
+</body>
+
+</html>

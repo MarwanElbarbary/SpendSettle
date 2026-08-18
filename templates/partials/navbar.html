@@ -1,0 +1,238 @@
+<!-- =========================================================
+     SpendSettle
+     Shared Navigation
+     ========================================================= -->
+
+<style>
+    @media (max-width: 760px) {
+        .ss-mobile-nav {
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+        }
+
+        .ss-mobile-link {
+            min-width: 0;
+        }
+    }
+</style>
+
+<nav class="ss-navbar">
+
+    <div class="ss-nav-shell">
+
+        <a
+            href="{{ url_for('dashboard') }}"
+            class="ss-brand"
+            aria-label="SpendSettle Home"
+        >
+            <span class="ss-brand-mark">
+                <span>S</span>
+            </span>
+
+            <span class="ss-brand-name">
+                Spend<strong>Settle</strong>
+            </span>
+        </a>
+
+
+        <div class="ss-nav-links">
+
+            <a
+                href="{{ url_for('dashboard') }}"
+                class="
+                    ss-nav-link
+                    {% if request.endpoint == 'dashboard' %}
+                        active
+                    {% endif %}
+                "
+            >
+                Overview
+            </a>
+
+            <a
+                href="{{ url_for('wallet') }}"
+                class="
+                    ss-nav-link
+                    {% if request.endpoint in ['wallet', 'receipt'] %}
+                        active
+                    {% endif %}
+                "
+            >
+                Wallet
+            </a>
+
+            <a
+                href="{{ url_for('finance') }}"
+                class="
+                    ss-nav-link
+                    {% if request.endpoint in ['finance', 'finance_history'] %}
+                        active
+                    {% endif %}
+                "
+            >
+                Money
+            </a>
+
+            <a
+                href="{{ url_for('groups_page') }}"
+                class="
+                    ss-nav-link
+                    {% if request.endpoint in [
+                        'groups_page',
+                        'group_detail',
+                        'edit_group_expense'
+                    ] %}
+                        active
+                    {% endif %}
+                "
+            >
+                Groups
+            </a>
+
+        </div>
+
+
+        <div class="ss-nav-right">
+
+            <details class="ss-account-menu">
+
+                <summary>
+
+                    <span class="ss-avatar">
+                        {% if user and user.name %}
+                            {{ user.name[0]|upper }}
+                        {% else %}
+                            U
+                        {% endif %}
+                    </span>
+
+                    <span class="ss-account-copy">
+
+                        <strong>
+                            {% if user and user.name %}
+                                {{ user.name }}
+                            {% else %}
+                                Account
+                            {% endif %}
+                        </strong>
+
+                        <span>
+                            {% if user and user.username %}
+                                @{{ user.username }}
+                            {% endif %}
+                        </span>
+
+                    </span>
+
+                    <span class="ss-chevron">
+                        ▾
+                    </span>
+
+                </summary>
+
+
+                <div class="ss-account-dropdown">
+
+                    <a
+                        href="{{ url_for('profile') }}"
+                        class="ss-dropdown-link"
+                    >
+                        <span>○</span>
+                        <span>Profile</span>
+                    </a>
+
+                    <div class="ss-dropdown-divider"></div>
+
+                    <a
+                        href="{{ url_for('logout') }}"
+                        class="ss-dropdown-link danger"
+                    >
+                        <span>↗</span>
+                        <span>Sign out</span>
+                    </a>
+
+                </div>
+
+            </details>
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+<nav
+    class="ss-mobile-nav"
+    aria-label="Mobile navigation"
+>
+
+    <a
+        href="{{ url_for('dashboard') }}"
+        class="
+            ss-mobile-link
+            {% if request.endpoint == 'dashboard' %}
+                active
+            {% endif %}
+        "
+    >
+        <span>⌂</span>
+        <span>Home</span>
+    </a>
+
+    <a
+        href="{{ url_for('wallet') }}"
+        class="
+            ss-mobile-link
+            {% if request.endpoint in ['wallet', 'receipt'] %}
+                active
+            {% endif %}
+        "
+    >
+        <span>▣</span>
+        <span>Wallet</span>
+    </a>
+
+    <a
+        href="{{ url_for('finance') }}"
+        class="
+            ss-mobile-link
+            {% if request.endpoint in ['finance', 'finance_history'] %}
+                active
+            {% endif %}
+        "
+    >
+        <span>◫</span>
+        <span>Money</span>
+    </a>
+
+    <a
+        href="{{ url_for('groups_page') }}"
+        class="
+            ss-mobile-link
+            {% if request.endpoint in [
+                'groups_page',
+                'group_detail',
+                'edit_group_expense'
+            ] %}
+                active
+            {% endif %}
+        "
+    >
+        <span>⇄</span>
+        <span>Groups</span>
+    </a>
+
+    <a
+        href="{{ url_for('profile') }}"
+        class="
+            ss-mobile-link
+            {% if request.endpoint == 'profile' %}
+                active
+            {% endif %}
+        "
+    >
+        <span>○</span>
+        <span>Me</span>
+    </a>
+
+</nav>

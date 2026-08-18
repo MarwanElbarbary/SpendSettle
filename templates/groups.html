@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="theme-color"
+        content="#4f46e5"
+    >
+
+    <title>
+        Groups | SpendSettle
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='groups.css') }}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='brand.css') }}"
+    >
+
+
+    <style>
+
+        .groups-summary {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 14px;
+            margin-bottom: 30px;
+        }
+
+
+        .groups-list-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 14px;
+        }
+
+
+        .ss-group-card {
+            position: relative;
+
+            display: flex;
+            flex-direction: column;
+
+            min-height: 210px;
+
+            padding: 20px;
+
+            overflow: hidden;
+        }
+
+
+        .ss-group-card::after {
+            content: "";
+
+            position: absolute;
+
+            width: 110px;
+            height: 110px;
+
+            right: -45px;
+            top: -45px;
+
+            border-radius: 50%;
+
+            background:
+                var(--ss-primary-soft);
+
+            opacity: 0.7;
+        }
+
+
+        .ss-group-card.archived::after {
+            background: #f2f4f7;
+        }
+
+
+        .ss-group-card-top {
+            position: relative;
+            z-index: 2;
+
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 15px;
+
+            margin-bottom: 24px;
+        }
+
+
+        .ss-group-icon {
+            width: 42px;
+            height: 42px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 12px;
+
+            background:
+                var(--ss-primary-soft);
+
+            color:
+                var(--ss-primary);
+
+            font-size: 18px;
+            font-weight: 800;
+        }
+
+
+        .ss-group-card.archived
+        .ss-group-icon {
+            background: #f2f4f7;
+            color: #667085;
+        }
+
+
+        .ss-group-card h3 {
+            margin: 0 0 5px;
+
+            color: var(--ss-text);
+
+            font-size: 15px;
+
+            letter-spacing: -0.3px;
+        }
+
+
+        .ss-group-meta {
+            color: var(--ss-text-muted);
+
+            font-size: 9px;
+        }
+
+
+        .ss-group-position {
+            margin-top: auto;
+        }
+
+
+        .ss-group-position > span {
+            display: block;
+
+            margin-bottom: 5px;
+
+            color: var(--ss-text-muted);
+
+            font-size: 9px;
+        }
+
+
+        .ss-group-position > strong {
+            display: block;
+
+            font-size: 21px;
+
+            letter-spacing: -0.7px;
+        }
+
+
+        .ss-group-card-footer {
+            display: flex;
+
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 10px;
+
+            margin-top: 20px;
+
+            padding-top: 15px;
+
+            border-top:
+                1px solid #f2f4f7;
+        }
+
+
+        .ss-group-card-footer span {
+            color: var(--ss-text-muted);
+
+            font-size: 9px;
+        }
+
+
+        .ss-group-open {
+            color: var(--ss-primary) !important;
+
+            font-weight: 700;
+        }
+
+
+        .groups-section + .groups-section {
+            margin-top: 34px;
+        }
+
+
+        .groups-create-modal {
+            position: fixed;
+
+            inset: 0;
+
+            z-index: 2000;
+
+            display: none;
+
+            align-items: center;
+            justify-content: center;
+
+            padding: 20px;
+
+            background:
+                rgba(16, 24, 40, 0.48);
+
+            backdrop-filter: blur(6px);
+        }
+
+
+        .groups-create-modal.open {
+            display: flex;
+        }
+
+
+        .groups-create-card {
+            width: min(430px, 100%);
+
+            padding: 24px;
+
+            border:
+                1px solid var(--ss-border);
+
+            border-radius: 18px;
+
+            background: white;
+
+            box-shadow:
+                var(--ss-shadow-lg);
+
+            animation:
+                groupModalIn 170ms ease-out;
+        }
+
+
+        @keyframes groupModalIn {
+
+            from {
+                opacity: 0;
+
+                transform:
+                    translateY(10px)
+                    scale(0.98);
+            }
+
+            to {
+                opacity: 1;
+
+                transform:
+                    translateY(0)
+                    scale(1);
+            }
+
+        }
+
+
+        .groups-create-head {
+            display: flex;
+
+            justify-content: space-between;
+
+            gap: 15px;
+
+            margin-bottom: 22px;
+        }
+
+
+        .groups-create-head h3 {
+            margin: 0 0 4px;
+
+            font-size: 18px;
+        }
+
+
+        .groups-create-head p {
+            margin: 0;
+
+            color: var(--ss-text-muted);
+
+            font-size: 10px;
+        }
+
+
+        .groups-modal-close {
+            width: 34px;
+            height: 34px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            flex-shrink: 0;
+
+            border:
+                1px solid var(--ss-border);
+
+            border-radius: 9px;
+
+            background: white;
+
+            color: var(--ss-text-secondary);
+
+            cursor: pointer;
+        }
+
+
+        .groups-create-form {
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 16px;
+        }
+
+
+        .groups-form-actions {
+            display: grid;
+
+            grid-template-columns:
+                1fr 2fr;
+
+            gap: 9px;
+        }
+
+
+        @media (max-width: 950px) {
+
+            .groups-list-grid {
+                grid-template-columns:
+                    repeat(2, minmax(0, 1fr));
+            }
+
+        }
+
+
+        @media (max-width: 760px) {
+
+            .groups-summary {
+                grid-template-columns:
+                    1fr 1fr;
+            }
+
+        }
+
+
+        @media (max-width: 600px) {
+
+            .groups-list-grid,
+            .groups-summary {
+                grid-template-columns: 1fr;
+            }
+
+
+            .groups-form-actions {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body class="dashboard-page">
+
+
+    {% include 'partials/navbar.html' %}
+
+
+    <main class="ss-page">
+
+
+        <!-- =========================================
+             Header
+             ========================================= -->
+
+        <header class="ss-page-header">
+
+            <div class="ss-page-heading">
+
+                <span class="ss-eyebrow">
+                    Shared money
+                </span>
+
+                <h1 class="ss-page-title">
+                    Groups
+                </h1>
+
+                <p class="ss-page-subtitle">
+                    Split expenses. Settle balances.
+                </p>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="ss-btn ss-btn-primary"
+                onclick="openCreateGroup()"
+            >
+                + New group
+            </button>
+
+        </header>
+
+
+
+        <!-- =========================================
+             Messages
+             ========================================= -->
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+
+            {% if messages %}
+
+                {% for category, message in messages %}
+
+                    <div class="message {{ category }}">
+                        {{ message }}
+                    </div>
+
+                {% endfor %}
+
+            {% endif %}
+
+        {% endwith %}
+
+
+
+        <!-- =========================================
+             Summary
+             ========================================= -->
+
+        {% set totals = namespace(
+            owe=0,
+            owed=0
+        ) %}
+
+
+        {% for item in active_group_cards %}
+
+            {% if item.current_balance < 0 %}
+
+                {% set totals.owe =
+                    totals.owe
+                    + (item.current_balance|abs)
+                %}
+
+            {% elif item.current_balance > 0 %}
+
+                {% set totals.owed =
+                    totals.owed
+                    + item.current_balance
+                %}
+
+            {% endif %}
+
+        {% endfor %}
+
+
+        <section class="groups-summary">
+
+
+            <div class="ss-stat-card">
+
+                <span class="ss-stat-label">
+                    You owe
+                </span>
+
+                <strong class="ss-stat-value ss-negative">
+
+                    {{ "%.2f"|format(totals.owe) }}
+
+                </strong>
+
+                <span class="ss-stat-meta">
+                    EGP
+                </span>
+
+            </div>
+
+
+            <div class="ss-stat-card">
+
+                <span class="ss-stat-label">
+                    You're owed
+                </span>
+
+                <strong class="ss-stat-value ss-positive">
+
+                    {{ "%.2f"|format(totals.owed) }}
+
+                </strong>
+
+                <span class="ss-stat-meta">
+                    EGP
+                </span>
+
+            </div>
+
+
+            <div class="ss-stat-card">
+
+                <span class="ss-stat-label">
+                    Active groups
+                </span>
+
+                <strong class="ss-stat-value">
+
+                    {{ active_group_cards|length }}
+
+                </strong>
+
+                <span class="ss-stat-meta">
+                    groups
+                </span>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =========================================
+             Active Groups
+             ========================================= -->
+
+        <section class="groups-section">
+
+            <div class="ss-section-header">
+
+                <div>
+
+                    <h2>
+                        Active
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            {% if active_group_cards %}
+
+                <div class="groups-list-grid">
+
+
+                    {% for item in active_group_cards %}
+
+                        <a
+                            href="{{ url_for('group_detail', group_id=item.group.group_id) }}"
+                            class="ss-card ss-card-hover ss-group-card"
+                        >
+
+
+                            <div class="ss-group-card-top">
+
+
+                                <div class="ss-group-icon">
+                                    ⇄
+                                </div>
+
+
+                                <span class="ss-badge ss-badge-primary">
+
+                                    {{ item.group.members|length }}
+                                    members
+
+                                </span>
+
+
+                            </div>
+
+
+                            <div>
+
+                                <h3>
+                                    {{ item.group.name }}
+                                </h3>
+
+                                <span class="ss-group-meta">
+
+                                    {{ item.expense_count }}
+                                    expenses
+
+                                    •
+
+                                    {{ "%.2f"|format(item.total_expenses) }}
+                                    EGP
+
+                                </span>
+
+                            </div>
+
+
+                            <div class="ss-group-position">
+
+
+                                {% if item.current_balance > 0 %}
+
+                                    <span>
+                                        You're owed
+                                    </span>
+
+                                    <strong class="ss-positive">
+
+                                        +{{ "%.2f"|format(item.current_balance) }}
+                                        EGP
+
+                                    </strong>
+
+                                {% elif item.current_balance < 0 %}
+
+                                    <span>
+                                        You owe
+                                    </span>
+
+                                    <strong class="ss-negative">
+
+                                        {{ "%.2f"|format(item.current_balance|abs) }}
+                                        EGP
+
+                                    </strong>
+
+                                {% else %}
+
+                                    <span>
+                                        Your balance
+                                    </span>
+
+                                    <strong>
+                                        Settled
+                                    </strong>
+
+                                {% endif %}
+
+
+                            </div>
+
+
+                            <div class="ss-group-card-footer">
+
+                                <span>
+
+                                    {{ item.settlement_count }}
+                                    payments
+
+                                </span>
+
+                                <span class="ss-group-open">
+                                    Open →
+                                </span>
+
+                            </div>
+
+
+                        </a>
+
+                    {% endfor %}
+
+
+                </div>
+
+
+            {% else %}
+
+                <div class="ss-card ss-empty-state">
+
+                    <div class="ss-empty-icon">
+                        ⇄
+                    </div>
+
+                    <h3>
+                        No groups yet
+                    </h3>
+
+                    <p>
+                        Create a group and start splitting.
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+        </section>
+
+
+
+        <!-- =========================================
+             Archived
+             ========================================= -->
+
+        {% if archived_group_cards %}
+
+            <section class="groups-section">
+
+                <div class="ss-section-header">
+
+                    <div>
+
+                        <h2>
+                            Archived
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+                <div class="groups-list-grid">
+
+
+                    {% for item in archived_group_cards %}
+
+                        <a
+                            href="{{ url_for('group_detail', group_id=item.group.group_id) }}"
+                            class="ss-card ss-card-hover ss-group-card archived"
+                        >
+
+
+                            <div class="ss-group-card-top">
+
+                                <div class="ss-group-icon">
+                                    □
+                                </div>
+
+                                <span class="ss-badge ss-badge-neutral">
+                                    Archived
+                                </span>
+
+                            </div>
+
+
+                            <div>
+
+                                <h3>
+                                    {{ item.group.name }}
+                                </h3>
+
+                                <span class="ss-group-meta">
+
+                                    {{ item.group.members|length }}
+                                    members
+
+                                    •
+
+                                    {{ item.expense_count }}
+                                    expenses
+
+                                </span>
+
+                            </div>
+
+
+                            <div class="ss-group-position">
+
+                                <span>
+                                    Total spending
+                                </span>
+
+                                <strong>
+
+                                    {{ "%.2f"|format(item.total_expenses) }}
+                                    EGP
+
+                                </strong>
+
+                            </div>
+
+
+                            <div class="ss-group-card-footer">
+
+                                <span>
+                                    Read only
+                                </span>
+
+                                <span class="ss-group-open">
+                                    View →
+                                </span>
+
+                            </div>
+
+
+                        </a>
+
+                    {% endfor %}
+
+
+                </div>
+
+            </section>
+
+        {% endif %}
+
+
+    </main>
+
+
+
+    <!-- =========================================
+         Create Group Modal
+         ========================================= -->
+
+    <div
+        class="groups-create-modal"
+        id="createGroupModal"
+        onclick="closeCreateGroupBackground(event)"
+    >
+
+        <div class="groups-create-card">
+
+            <div class="groups-create-head">
+
+                <div>
+
+                    <h3>
+                        New group
+                    </h3>
+
+                    <p>
+                        Create a shared expense space.
+                    </p>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    class="groups-modal-close"
+                    onclick="closeCreateGroup()"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+            <form
+                action="{{ url_for('create_group') }}"
+                method="POST"
+                class="groups-create-form"
+            >
+
+                <div class="form-group">
+
+                    <label>
+                        Group name
+                    </label>
+
+                    <input
+                        type="text"
+                        name="group_name"
+                        maxlength="50"
+                        placeholder="e.g. Sharm Trip"
+                        autofocus
+                        required
+                    >
+
+                </div>
+
+
+                <div class="groups-form-actions">
+
+                    <button
+                        type="button"
+                        class="ss-btn ss-btn-light"
+                        onclick="closeCreateGroup()"
+                    >
+                        Cancel
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="ss-btn ss-btn-primary"
+                    >
+                        Create group
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+
+    <footer class="footer">
+        SpendSettle • Groups
+    </footer>
+
+
+
+    <script>
+
+        const createGroupModal =
+            document.getElementById(
+                "createGroupModal"
+            );
+
+
+        function openCreateGroup() {
+
+            if (!createGroupModal) {
+                return;
+            }
+
+            createGroupModal.classList.add(
+                "open"
+            );
+
+            document.body.style.overflow =
+                "hidden";
+
+        }
+
+
+        function closeCreateGroup() {
+
+            if (!createGroupModal) {
+                return;
+            }
+
+            createGroupModal.classList.remove(
+                "open"
+            );
+
+            document.body.style.overflow =
+                "";
+
+        }
+
+
+        function closeCreateGroupBackground(
+            event
+        ) {
+
+            if (
+                event.target
+                === event.currentTarget
+            ) {
+                closeCreateGroup();
+            }
+
+        }
+
+
+        document.addEventListener(
+            "keydown",
+            function (event) {
+
+                if (
+                    event.key
+                    === "Escape"
+                ) {
+                    closeCreateGroup();
+                }
+
+            }
+        );
+
+    </script>
+
+
+</body>
+
+</html>

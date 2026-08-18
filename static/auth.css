@@ -1,0 +1,1869 @@
+/* =========================================================
+   SpendSettle
+   Authentication Pages
+   Login + Register
+   ========================================================= */
+
+
+/* =========================================================
+   1. AUTH BODY
+   ========================================================= */
+
+body.ss-auth-page {
+    min-height: 100vh;
+
+    margin: 0;
+
+    overflow-x: hidden;
+
+    background:
+        #f8fafc;
+}
+
+
+/* =========================================================
+   2. MAIN LAYOUT
+   ========================================================= */
+
+.ss-auth-layout {
+    min-height: 100vh;
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1.08fr)
+        minmax(430px, 0.92fr);
+}
+
+
+/* =========================================================
+   3. LEFT VISUAL SIDE
+   ========================================================= */
+
+.ss-auth-visual {
+    position: relative;
+
+    min-height: 100vh;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    overflow: hidden;
+
+    padding:
+        55px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #101828 0%,
+            #17153c 46%,
+            #312e81 100%
+        );
+
+    color: white;
+}
+
+
+/* =========================================================
+   4. BACKGROUND GLOW
+   ========================================================= */
+
+.ss-auth-visual::before {
+    content: "";
+
+    position: absolute;
+
+    width: 520px;
+    height: 520px;
+
+    top: -190px;
+    left: -170px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(99, 102, 241, 0.32),
+            rgba(99, 102, 241, 0)
+        );
+
+    filter:
+        blur(5px);
+
+    animation:
+        ssGlowMoveOne
+        12s ease-in-out
+        infinite alternate;
+}
+
+
+.ss-auth-visual::after {
+    content: "";
+
+    position: absolute;
+
+    width: 500px;
+    height: 500px;
+
+    right: -180px;
+    bottom: -190px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(124, 58, 237, 0.26),
+            rgba(124, 58, 237, 0)
+        );
+
+    animation:
+        ssGlowMoveTwo
+        14s ease-in-out
+        infinite alternate;
+}
+
+
+@keyframes ssGlowMoveOne {
+
+    from {
+        transform:
+            translate3d(
+                0,
+                0,
+                0
+            )
+            scale(1);
+    }
+
+    to {
+        transform:
+            translate3d(
+                45px,
+                35px,
+                0
+            )
+            scale(1.08);
+    }
+
+}
+
+
+@keyframes ssGlowMoveTwo {
+
+    from {
+        transform:
+            translate3d(
+                0,
+                0,
+                0
+            )
+            scale(1);
+    }
+
+    to {
+        transform:
+            translate3d(
+                -50px,
+                -35px,
+                0
+            )
+            scale(1.1);
+    }
+
+}
+
+
+/* =========================================================
+   5. DECORATIVE GRID
+   ========================================================= */
+
+.ss-auth-grid-bg {
+    position: absolute;
+
+    inset: 0;
+
+    opacity: 0.07;
+
+    background-image:
+        linear-gradient(
+            rgba(255, 255, 255, 0.5)
+            1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(255, 255, 255, 0.5)
+            1px,
+            transparent 1px
+        );
+
+    background-size:
+        46px 46px;
+
+    mask-image:
+        linear-gradient(
+            to bottom,
+            transparent,
+            black 15%,
+            black 80%,
+            transparent
+        );
+}
+
+
+/* =========================================================
+   6. VISUAL CONTENT
+   ========================================================= */
+
+.ss-auth-visual-content {
+    position: relative;
+
+    z-index: 5;
+
+    width: 100%;
+
+    max-width: 580px;
+
+    animation:
+        ssVisualEnter
+        700ms
+        cubic-bezier(
+            0.22,
+            1,
+            0.36,
+            1
+        )
+        both;
+}
+
+
+@keyframes ssVisualEnter {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translateY(24px);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateY(0);
+    }
+
+}
+
+
+/* =========================================================
+   7. AUTH BRAND
+   ========================================================= */
+
+.ss-auth-brand {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 11px;
+
+    margin-bottom: 54px;
+}
+
+
+.ss-auth-brand-mark {
+    position: relative;
+
+    width: 43px;
+    height: 43px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.12);
+
+    border-radius: 13px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #6366f1,
+            #7c3aed
+        );
+
+    box-shadow:
+        0 12px 35px
+        rgba(79, 70, 229, 0.32);
+}
+
+
+.ss-auth-brand-mark::before {
+    content: "";
+
+    position: absolute;
+
+    width: 24px;
+    height: 24px;
+
+    top: -6px;
+    right: -7px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(255, 255, 255, 0.2);
+}
+
+
+.ss-auth-brand-mark span {
+    position: relative;
+
+    z-index: 2;
+
+    color: white;
+
+    font-size: 19px;
+    font-weight: 850;
+
+    letter-spacing:
+        -1.2px;
+}
+
+
+.ss-auth-brand-name {
+    color: white;
+
+    font-size: 21px;
+    font-weight: 750;
+
+    letter-spacing:
+        -0.8px;
+}
+
+
+.ss-auth-brand-name strong {
+    color:
+        #a5b4fc;
+}
+
+
+/* =========================================================
+   8. HERO TEXT
+   ========================================================= */
+
+.ss-auth-hero {
+    max-width: 500px;
+}
+
+
+.ss-auth-eyebrow {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    margin-bottom: 14px;
+
+    color:
+        #a5b4fc;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    text-transform: uppercase;
+
+    letter-spacing:
+        1.2px;
+}
+
+
+.ss-auth-eyebrow-dot {
+    width: 6px;
+    height: 6px;
+
+    border-radius: 50%;
+
+    background:
+        #818cf8;
+
+    box-shadow:
+        0 0 0 5px
+        rgba(129, 140, 248, 0.1);
+}
+
+
+.ss-auth-hero h1 {
+    max-width: 520px;
+
+    margin:
+        0 0 18px;
+
+    color: white;
+
+    font-size:
+        clamp(
+            42px,
+            5vw,
+            62px
+        );
+
+    line-height: 0.98;
+
+    font-weight: 760;
+
+    letter-spacing:
+        -2.8px;
+}
+
+
+.ss-auth-hero h1 span {
+    color:
+        #a5b4fc;
+}
+
+
+.ss-auth-hero > p {
+    max-width: 455px;
+
+    margin:
+        0;
+
+    color:
+        #cbd5e1;
+
+    font-size: 15px;
+
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   9. FEATURE PILLS
+   ========================================================= */
+
+.ss-auth-features {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 9px;
+
+    margin-top: 27px;
+}
+
+
+.ss-auth-feature {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    min-height: 34px;
+
+    padding:
+        0 11px;
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.11);
+
+    border-radius:
+        999px;
+
+    background:
+        rgba(255, 255, 255, 0.06);
+
+    color:
+        #e2e8f0;
+
+    font-size: 10px;
+    font-weight: 600;
+
+    backdrop-filter:
+        blur(8px);
+}
+
+
+.ss-auth-feature span:first-child {
+    color:
+        #a5b4fc;
+
+    font-size: 12px;
+}
+
+
+/* =========================================================
+   10. FLOATING FINANCE MOCKUP
+   ========================================================= */
+
+.ss-auth-demo {
+    position: relative;
+
+    width: 100%;
+    height: 265px;
+
+    margin-top: 42px;
+}
+
+
+/* =========================================================
+   11. BALANCE MOCKUP
+   ========================================================= */
+
+.ss-demo-balance {
+    position: absolute;
+
+    left: 8px;
+    top: 18px;
+
+    width: 275px;
+
+    padding:
+        21px;
+
+    overflow: hidden;
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.12);
+
+    border-radius: 19px;
+
+    background:
+        rgba(255, 255, 255, 0.09);
+
+    box-shadow:
+        0 25px 55px
+        rgba(0, 0, 0, 0.18);
+
+    backdrop-filter:
+        blur(16px);
+
+    -webkit-backdrop-filter:
+        blur(16px);
+
+    animation:
+        ssFloatCardOne
+        5.8s
+        ease-in-out
+        infinite;
+}
+
+
+.ss-demo-balance::after {
+    content: "";
+
+    position: absolute;
+
+    width: 120px;
+    height: 120px;
+
+    right: -55px;
+    bottom: -60px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(129, 140, 248, 0.18);
+}
+
+
+.ss-demo-label {
+    position: relative;
+
+    z-index: 2;
+
+    display: block;
+
+    margin-bottom: 9px;
+
+    color:
+        #cbd5e1;
+
+    font-size: 10px;
+    font-weight: 550;
+}
+
+
+.ss-demo-amount {
+    position: relative;
+
+    z-index: 2;
+
+    display: block;
+
+    color: white;
+
+    font-size: 28px;
+    font-weight: 750;
+
+    letter-spacing:
+        -1.3px;
+}
+
+
+.ss-demo-amount small {
+    color:
+        #a5b4fc;
+
+    font-size: 10px;
+    font-weight: 600;
+}
+
+
+.ss-demo-balance-footer {
+    position: relative;
+
+    z-index: 2;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    gap: 15px;
+
+    margin-top: 19px;
+
+    padding-top: 14px;
+
+    border-top:
+        1px solid
+        rgba(255, 255, 255, 0.08);
+}
+
+
+.ss-demo-balance-footer div {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 3px;
+}
+
+
+.ss-demo-balance-footer span {
+    color:
+        #94a3b8;
+
+    font-size: 8px;
+}
+
+
+.ss-demo-balance-footer strong {
+    color:
+        #f8fafc;
+
+    font-size: 10px;
+}
+
+
+/* =========================================================
+   12. FLOATING INCOME CARD
+   ========================================================= */
+
+.ss-demo-income {
+    position: absolute;
+
+    right: 26px;
+    top: 0;
+
+    min-width: 165px;
+
+    padding:
+        14px 16px;
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.12);
+
+    border-radius: 14px;
+
+    background:
+        rgba(255, 255, 255, 0.1);
+
+    box-shadow:
+        0 20px 40px
+        rgba(0, 0, 0, 0.14);
+
+    backdrop-filter:
+        blur(14px);
+
+    animation:
+        ssFloatCardTwo
+        5.2s
+        ease-in-out
+        infinite;
+}
+
+
+.ss-demo-income > span {
+    display: block;
+
+    margin-bottom: 5px;
+
+    color:
+        #cbd5e1;
+
+    font-size: 9px;
+}
+
+
+.ss-demo-income strong {
+    color:
+        #6ee7b7;
+
+    font-size: 15px;
+}
+
+
+/* =========================================================
+   13. FLOATING SETTLED CARD
+   ========================================================= */
+
+.ss-demo-settled {
+    position: absolute;
+
+    right: 5px;
+    bottom: 38px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    min-width: 205px;
+
+    padding:
+        13px 15px;
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.12);
+
+    border-radius: 14px;
+
+    background:
+        rgba(255, 255, 255, 0.1);
+
+    box-shadow:
+        0 22px 45px
+        rgba(0, 0, 0, 0.16);
+
+    backdrop-filter:
+        blur(15px);
+
+    animation:
+        ssFloatCardThree
+        6.2s
+        ease-in-out
+        infinite;
+}
+
+
+.ss-demo-settled-icon {
+    width: 33px;
+    height: 33px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 10px;
+
+    background:
+        rgba(16, 185, 129, 0.16);
+
+    color:
+        #6ee7b7;
+
+    font-size: 14px;
+    font-weight: 800;
+}
+
+
+.ss-demo-settled-info {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 2px;
+}
+
+
+.ss-demo-settled-info strong {
+    color: white;
+
+    font-size: 10px;
+}
+
+
+.ss-demo-settled-info span {
+    color:
+        #94a3b8;
+
+    font-size: 8px;
+}
+
+
+/* =========================================================
+   14. FLOATING ANIMATIONS
+   ========================================================= */
+
+@keyframes ssFloatCardOne {
+
+    0%,
+    100% {
+        transform:
+            translate3d(
+                0,
+                0,
+                0
+            );
+    }
+
+    50% {
+        transform:
+            translate3d(
+                0,
+                -11px,
+                0
+            );
+    }
+
+}
+
+
+@keyframes ssFloatCardTwo {
+
+    0%,
+    100% {
+        transform:
+            translate3d(
+                0,
+                0,
+                0
+            )
+            rotate(0deg);
+    }
+
+    50% {
+        transform:
+            translate3d(
+                0,
+                10px,
+                0
+            )
+            rotate(1.5deg);
+    }
+
+}
+
+
+@keyframes ssFloatCardThree {
+
+    0%,
+    100% {
+        transform:
+            translate3d(
+                0,
+                0,
+                0
+            );
+    }
+
+    50% {
+        transform:
+            translate3d(
+                -5px,
+                -9px,
+                0
+            );
+    }
+
+}
+
+
+/* =========================================================
+   15. RIGHT FORM PANEL
+   ========================================================= */
+
+.ss-auth-panel {
+    position: relative;
+
+    min-height: 100vh;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding:
+        48px 60px;
+
+    background:
+        #ffffff;
+}
+
+
+/* =========================================================
+   16. AUTH FORM WRAPPER
+   ========================================================= */
+
+.ss-auth-form-shell {
+    width: 100%;
+
+    max-width: 410px;
+
+    animation:
+        ssFormEnter
+        700ms
+        80ms
+        cubic-bezier(
+            0.22,
+            1,
+            0.36,
+            1
+        )
+        both;
+}
+
+
+@keyframes ssFormEnter {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translateX(30px);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateX(0);
+    }
+
+}
+
+
+/* =========================================================
+   17. MOBILE BRAND
+   ========================================================= */
+
+.ss-auth-mobile-brand {
+    display: none;
+
+    align-items: center;
+
+    gap: 9px;
+
+    margin-bottom: 34px;
+}
+
+
+.ss-auth-mobile-brand .ss-auth-brand-mark {
+    width: 38px;
+    height: 38px;
+}
+
+
+.ss-auth-mobile-brand
+.ss-auth-brand-name {
+    color:
+        var(--ss-text);
+
+    font-size: 18px;
+}
+
+
+.ss-auth-mobile-brand
+.ss-auth-brand-name strong {
+    color:
+        var(--ss-primary);
+}
+
+
+/* =========================================================
+   18. FORM HEADER
+   ========================================================= */
+
+.ss-auth-form-header {
+    margin-bottom: 30px;
+}
+
+
+.ss-auth-form-header h2 {
+    margin:
+        0 0 8px;
+
+    color:
+        var(--ss-text);
+
+    font-size:
+        clamp(
+            28px,
+            3vw,
+            35px
+        );
+
+    line-height: 1.1;
+
+    font-weight: 750;
+
+    letter-spacing:
+        -1.1px;
+}
+
+
+.ss-auth-form-header p {
+    margin: 0;
+
+    color:
+        var(--ss-text-secondary);
+
+    font-size: 13px;
+
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   19. FORM
+   ========================================================= */
+
+.ss-auth-form {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 17px;
+}
+
+
+/* =========================================================
+   20. AUTH FIELD
+   ========================================================= */
+
+.ss-auth-field {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 7px;
+}
+
+
+.ss-auth-field label {
+    color:
+        var(--ss-text-secondary);
+
+    font-size: 11px;
+    font-weight: 650;
+}
+
+
+.ss-auth-input-wrap {
+    position: relative;
+}
+
+
+.ss-auth-input-wrap input {
+    width: 100%;
+
+    min-height: 48px;
+
+    padding:
+        0 44px 0 14px;
+
+    border:
+        1px solid
+        var(--ss-border-strong) !important;
+
+    border-radius:
+        11px !important;
+
+    background:
+        #ffffff !important;
+
+    color:
+        var(--ss-text) !important;
+
+    font-size: 13px !important;
+
+    outline: none;
+
+    transition:
+        border-color
+        var(--ss-transition),
+        box-shadow
+        var(--ss-transition),
+        transform
+        var(--ss-transition);
+}
+
+
+.ss-auth-input-wrap input:focus {
+    border-color:
+        #818cf8 !important;
+
+    box-shadow:
+        0 0 0 4px
+        rgba(99, 102, 241, 0.1)
+        !important;
+
+    transform:
+        translateY(-1px);
+}
+
+
+.ss-auth-input-wrap input::placeholder {
+    color:
+        #b0b7c3;
+}
+
+
+/* =========================================================
+   21. INPUT ICON
+   ========================================================= */
+
+.ss-auth-input-icon {
+    position: absolute;
+
+    top: 50%;
+    right: 14px;
+
+    transform:
+        translateY(-50%);
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    color:
+        var(--ss-text-muted);
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   22. PASSWORD TOGGLE
+   ========================================================= */
+
+.ss-password-toggle {
+    position: absolute;
+
+    top: 50%;
+    right: 9px;
+
+    transform:
+        translateY(-50%);
+
+    width: 33px;
+    height: 33px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 0;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background:
+        transparent;
+
+    color:
+        var(--ss-text-muted);
+
+    cursor: pointer;
+
+    transition:
+        background
+        var(--ss-transition),
+        color
+        var(--ss-transition);
+}
+
+
+.ss-password-toggle:hover {
+    background:
+        var(--ss-primary-soft);
+
+    color:
+        var(--ss-primary);
+}
+
+
+/* =========================================================
+   23. AUTH BUTTON
+   ========================================================= */
+
+.ss-auth-submit {
+    position: relative;
+
+    width: 100%;
+
+    min-height: 49px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 9px;
+
+    margin-top: 3px;
+
+    overflow: hidden;
+
+    border:
+        1px solid
+        var(--ss-primary);
+
+    border-radius:
+        11px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #4f46e5,
+            #6366f1
+        );
+
+    color: white;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 8px 20px
+        rgba(79, 70, 229, 0.2);
+
+    transition:
+        transform
+        var(--ss-transition),
+        box-shadow
+        var(--ss-transition);
+}
+
+
+.ss-auth-submit::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: -120%;
+
+    width: 65%;
+    height: 100%;
+
+    transform:
+        skewX(-20deg);
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(255, 255, 255, 0.16),
+            transparent
+        );
+
+    transition:
+        left 500ms ease;
+}
+
+
+.ss-auth-submit:hover {
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+        0 12px 28px
+        rgba(79, 70, 229, 0.28);
+}
+
+
+.ss-auth-submit:hover::before {
+    left:
+        150%;
+}
+
+
+.ss-auth-submit:active {
+    transform:
+        translateY(0);
+}
+
+
+.ss-auth-submit-arrow {
+    display: inline-block;
+
+    font-size: 14px;
+
+    transition:
+        transform
+        var(--ss-transition);
+}
+
+
+.ss-auth-submit:hover
+.ss-auth-submit-arrow {
+    transform:
+        translateX(4px);
+}
+
+
+/* =========================================================
+   24. ERROR MESSAGE
+   ========================================================= */
+
+.ss-auth-error {
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 9px;
+
+    padding:
+        11px 12px;
+
+    border:
+        1px solid
+        #fecdca;
+
+    border-radius:
+        10px;
+
+    background:
+        #fef3f2;
+
+    color:
+        #b42318;
+
+    font-size: 11px;
+
+    line-height: 1.45;
+
+    animation:
+        ssErrorShake
+        350ms ease;
+}
+
+
+.ss-auth-error-icon {
+    flex-shrink: 0;
+
+    font-weight: 800;
+}
+
+
+@keyframes ssErrorShake {
+
+    0%,
+    100% {
+        transform:
+            translateX(0);
+    }
+
+    25% {
+        transform:
+            translateX(-4px);
+    }
+
+    50% {
+        transform:
+            translateX(4px);
+    }
+
+    75% {
+        transform:
+            translateX(-2px);
+    }
+
+}
+
+
+/* =========================================================
+   25. SUCCESS MESSAGE
+   ========================================================= */
+
+.ss-auth-success {
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 9px;
+
+    padding:
+        11px 12px;
+
+    border:
+        1px solid
+        #abefc6;
+
+    border-radius:
+        10px;
+
+    background:
+        #ecfdf3;
+
+    color:
+        #027a48;
+
+    font-size: 11px;
+
+    line-height: 1.45;
+}
+
+
+/* =========================================================
+   26. AUTH FOOTER
+   ========================================================= */
+
+.ss-auth-footer {
+    margin-top: 25px;
+
+    padding-top: 22px;
+
+    border-top:
+        1px solid
+        var(--ss-border);
+
+    color:
+        var(--ss-text-muted);
+
+    text-align: center;
+
+    font-size: 11px;
+}
+
+
+.ss-auth-footer a {
+    margin-left: 3px;
+
+    color:
+        var(--ss-primary);
+
+    font-weight: 700;
+
+    transition:
+        color
+        var(--ss-transition);
+}
+
+
+.ss-auth-footer a:hover {
+    color:
+        var(--ss-primary-dark);
+}
+
+
+/* =========================================================
+   27. AUTH META
+   ========================================================= */
+
+.ss-auth-meta {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 15px;
+
+    margin-top: -2px;
+}
+
+
+.ss-auth-security {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    color:
+        var(--ss-text-muted);
+
+    font-size: 9px;
+}
+
+
+.ss-auth-security-dot {
+    width: 6px;
+    height: 6px;
+
+    border-radius: 50%;
+
+    background:
+        var(--ss-success);
+
+    box-shadow:
+        0 0 0 4px
+        rgba(18, 183, 106, 0.09);
+}
+
+
+/* =========================================================
+   28. REGISTER MODE
+   ========================================================= */
+
+.ss-auth-layout.ss-register-layout {
+    grid-template-columns:
+        minmax(0, 0.95fr)
+        minmax(480px, 1.05fr);
+}
+
+
+.ss-register-layout
+.ss-auth-panel {
+    align-items:
+        flex-start;
+
+    overflow-y:
+        auto;
+
+    padding-top:
+        50px;
+
+    padding-bottom:
+        50px;
+}
+
+
+.ss-register-layout
+.ss-auth-form-shell {
+    max-width:
+        460px;
+}
+
+
+.ss-register-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            2,
+            minmax(0, 1fr)
+        );
+
+    gap:
+        15px;
+}
+
+
+.ss-register-grid
+.ss-auth-field-full {
+    grid-column:
+        1 / -1;
+}
+
+
+/* =========================================================
+   29. SMALL TEXT
+   ========================================================= */
+
+.ss-field-hint {
+    margin:
+        -1px 0 0;
+
+    color:
+        var(--ss-text-muted);
+
+    font-size: 9px;
+
+    line-height: 1.4;
+}
+
+
+/* =========================================================
+   30. AUTH COPYRIGHT
+   ========================================================= */
+
+.ss-auth-copyright {
+    position: absolute;
+
+    left: 60px;
+    bottom: 27px;
+
+    z-index: 6;
+
+    color:
+        rgba(203, 213, 225, 0.58);
+
+    font-size: 9px;
+}
+
+
+/* =========================================================
+   31. LARGE SCREEN
+   ========================================================= */
+
+@media (min-width: 1500px) {
+
+    .ss-auth-visual {
+        padding:
+            70px 90px;
+    }
+
+
+    .ss-auth-panel {
+        padding:
+            60px 80px;
+    }
+
+
+    .ss-auth-visual-content {
+        max-width:
+            650px;
+    }
+
+
+    .ss-auth-demo {
+        max-width:
+            590px;
+    }
+
+}
+
+
+/* =========================================================
+   32. TABLET
+   ========================================================= */
+
+@media (max-width: 1050px) {
+
+    .ss-auth-layout,
+    .ss-auth-layout.ss-register-layout {
+        grid-template-columns:
+            minmax(0, 0.9fr)
+            minmax(400px, 1.1fr);
+    }
+
+
+    .ss-auth-visual {
+        padding:
+            40px;
+    }
+
+
+    .ss-auth-panel {
+        padding:
+            42px;
+    }
+
+
+    .ss-auth-hero h1 {
+        font-size:
+            44px;
+    }
+
+
+    .ss-demo-balance {
+        width:
+            235px;
+    }
+
+
+    .ss-demo-income {
+        right:
+            0;
+    }
+
+
+    .ss-demo-settled {
+        right:
+            -6px;
+    }
+
+}
+
+
+/* =========================================================
+   33. MOBILE / SMALL TABLET
+   ========================================================= */
+
+@media (max-width: 820px) {
+
+    .ss-auth-layout,
+    .ss-auth-layout.ss-register-layout {
+        display:
+            block;
+    }
+
+
+    .ss-auth-visual {
+        display:
+            none;
+    }
+
+
+    .ss-auth-panel {
+        min-height:
+            100vh;
+
+        align-items:
+            center;
+
+        padding:
+            40px 24px;
+    }
+
+
+    .ss-register-layout
+    .ss-auth-panel {
+        align-items:
+            flex-start;
+
+        padding-top:
+            35px;
+    }
+
+
+    .ss-auth-mobile-brand {
+        display:
+            flex;
+    }
+
+
+    .ss-auth-form-shell,
+    .ss-register-layout
+    .ss-auth-form-shell {
+        max-width:
+            460px;
+    }
+
+}
+
+
+/* =========================================================
+   34. SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 520px) {
+
+    .ss-auth-panel {
+        padding:
+            30px 18px;
+    }
+
+
+    .ss-register-layout
+    .ss-auth-panel {
+        padding-top:
+            25px;
+    }
+
+
+    .ss-auth-form-header {
+        margin-bottom:
+            25px;
+    }
+
+
+    .ss-auth-form-header h2 {
+        font-size:
+            29px;
+    }
+
+
+    .ss-register-grid {
+        grid-template-columns:
+            1fr;
+    }
+
+
+    .ss-register-grid
+    .ss-auth-field-full {
+        grid-column:
+            auto;
+    }
+
+
+    .ss-auth-input-wrap input {
+        min-height:
+            47px;
+    }
+
+
+    .ss-auth-submit {
+        min-height:
+            48px;
+    }
+
+}
+
+
+/* =========================================================
+   35. VERY SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 360px) {
+
+    .ss-auth-panel {
+        padding:
+            25px 14px;
+    }
+
+
+    .ss-auth-mobile-brand {
+        margin-bottom:
+            28px;
+    }
+
+
+    .ss-auth-form-header h2 {
+        font-size:
+            27px;
+    }
+
+}
+
+
+/* =========================================================
+   36. REDUCED MOTION
+   ========================================================= */
+
+@media (
+    prefers-reduced-motion:
+    reduce
+) {
+
+    .ss-auth-visual::before,
+    .ss-auth-visual::after,
+    .ss-demo-balance,
+    .ss-demo-income,
+    .ss-demo-settled,
+    .ss-auth-visual-content,
+    .ss-auth-form-shell {
+        animation:
+            none !important;
+    }
+
+}

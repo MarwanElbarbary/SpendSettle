@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="theme-color"
+        content="#4f46e5"
+    >
+
+    <title>
+        Edit Expense | SpendSettle
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='groups.css') }}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='split.css') }}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='brand.css') }}"
+    >
+
+
+    <style>
+
+        .edit-expense-page {
+            max-width: 760px;
+        }
+
+
+        .edit-expense-back {
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 6px;
+
+            margin-bottom: 18px;
+
+            color: var(--ss-text-secondary);
+
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+
+        .edit-expense-back:hover {
+            color: var(--ss-primary);
+        }
+
+
+        .edit-expense-card {
+            padding: 24px;
+        }
+
+
+        .edit-expense-head {
+            margin-bottom: 23px;
+        }
+
+
+        .edit-expense-head h2 {
+            margin: 0 0 5px;
+
+            font-size: 17px;
+        }
+
+
+        .edit-expense-head p {
+            margin: 0;
+
+            color: var(--ss-text-muted);
+
+            font-size: 9px;
+        }
+
+
+        .edit-expense-form {
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 15px;
+        }
+
+
+        .edit-expense-actions-new {
+            display: grid;
+
+            grid-template-columns:
+                1fr 2fr;
+
+            gap: 9px;
+
+            margin-top: 2px;
+        }
+
+
+        @media (max-width: 550px) {
+
+            .edit-expense-actions-new {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body class="dashboard-page">
+
+
+    {% include 'partials/navbar.html' %}
+
+
+    <main class="ss-page edit-expense-page">
+
+
+        <a
+            href="{{ url_for('group_detail', group_id=group.group_id) }}"
+            class="edit-expense-back"
+        >
+            ← {{ group.name }}
+        </a>
+
+
+
+        <!-- =========================================
+             Header
+             ========================================= -->
+
+        <header class="ss-page-header">
+
+            <div class="ss-page-heading">
+
+                <span class="ss-eyebrow">
+                    Shared expense
+                </span>
+
+                <h1 class="ss-page-title">
+                    Edit expense
+                </h1>
+
+                <p class="ss-page-subtitle">
+                    {{ expense.expense_id }}
+                </p>
+
+            </div>
+
+        </header>
+
+
+
+        <!-- =========================================
+             Messages
+             ========================================= -->
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+
+            {% if messages %}
+
+                {% for category, message in messages %}
+
+                    <div class="message {{ category }}">
+                        {{ message }}
+                    </div>
+
+                {% endfor %}
+
+            {% endif %}
+
+        {% endwith %}
+
+
+
+        <!-- =========================================
+             Form
+             ========================================= -->
+
+        <section class="ss-card edit-expense-card">
+
+
+            <div class="edit-expense-head">
+
+                <h2>
+                    {{ expense.description }}
+                </h2>
+
+                <p>
+                    Balances update automatically.
+                </p>
+
+            </div>
+
+
+            <form
+                action="{{ url_for('edit_group_expense', group_id=group.group_id, expense_id=expense.expense_id) }}"
+                method="POST"
+                class="edit-expense-form"
+                id="sharedExpenseForm"
+            >
+
+
+                <div class="ss-grid ss-grid-2">
+
+
+                    <!-- Description -->
+
+                    <div class="form-group">
+
+                        <label>
+                            What for?
+                        </label>
+
+                        <input
+                            type="text"
+                            name="description"
+                            value="{{ expense.description }}"
+                            maxlength="100"
+                            required
+                        >
+
+                    </div>
+
+
+
+                    <!-- Amount -->
+
+                    <div class="form-group">
+
+                        <label>
+                            Amount
+                        </label>
+
+                        <input
+                            type="number"
+                            name="amount"
+                            id="sharedExpenseAmount"
+                            value="{{ '%.2f'|format(expense.amount) }}"
+                            min="0.01"
+                            step="0.01"
+                            required
+                        >
+
+                    </div>
+
+
+
+                    <!-- Paid By -->
+
+                    <div class="form-group">
+
+                        <label>
+                            Paid by
+                        </label>
+
+                        <select
+                            name="paid_by"
+                            required
+                        >
+
+                            {% for member in group.members %}
+
+                                <option
+                                    value="{{ member.username }}"
+
+                                    {% if member.username == expense.paid_by_username %}
+                                        selected
+                                    {% endif %}
+                                >
+
+                                    {{ member.name }}
+
+                                </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+
+
+                    <!-- Method -->
+
+                    <div class="form-group">
+
+                        <label>
+                            Split
+                        </label>
+
+                        <select
+                            name="split_method"
+                            id="splitMethod"
+                        >
+
+                            <option
+                                value="equal"
+
+                                {% if split_method == 'equal' %}
+                                    selected
+                                {% endif %}
+                            >
+                                Equal
+                            </option>
+
+
+                            <option
+                                value="exact"
+
+                                {% if split_method == 'exact' %}
+                                    selected
+                                {% endif %}
+                            >
+                                Amount
+                            </option>
+
+
+                            <option
+                                value="percentage"
+
+                                {% if split_method == 'percentage' %}
+                                    selected
+                                {% endif %}
+                            >
+                                Percentage
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- =========================================
+                     Split Builder
+                     ========================================= -->
+
+                <div class="split-builder">
+
+
+                    <div class="split-builder-header">
+
+
+                        <div>
+
+                            <strong>
+                                Participants
+                            </strong>
+
+                        </div>
+
+
+                        <div class="participant-counter">
+
+                            <span id="selectedParticipants">
+
+                                {{ participant_usernames|length }}
+
+                            </span>
+
+                            selected
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <div class="split-members-list">
+
+
+                        {% for member in group.members %}
+
+
+                            <div
+                                class="split-member-row"
+                                data-username="{{ member.username }}"
+                            >
+
+
+                                <label class="participant-select">
+
+
+                                    <input
+                                        type="checkbox"
+                                        name="participants"
+                                        value="{{ member.username }}"
+                                        class="participant-checkbox"
+
+                                        {% if member.username in participant_usernames %}
+                                            checked
+                                        {% endif %}
+                                    >
+
+
+                                    <span class="split-member-avatar">
+
+                                        {{ member.name[0]|upper }}
+
+                                    </span>
+
+
+                                    <span class="split-member-name">
+
+                                        <strong>
+                                            {{ member.name }}
+                                        </strong>
+
+                                        <small>
+                                            @{{ member.username }}
+                                        </small>
+
+                                    </span>
+
+
+                                </label>
+
+
+
+                                <!-- Equal -->
+
+                                <div
+                                    class="
+                                        equal-split-value
+
+                                        {% if split_method != 'equal' %}
+                                            hidden
+                                        {% endif %}
+                                    "
+                                >
+
+                                    <strong class="equal-preview">
+                                        0.00 EGP
+                                    </strong>
+
+                                </div>
+
+
+
+                                <!-- Exact -->
+
+                                <div
+                                    class="
+                                        exact-split-area
+                                        split-input-area
+
+                                        {% if split_method != 'exact' %}
+                                            hidden
+                                        {% endif %}
+                                    "
+                                >
+
+                                    <input
+                                        type="number"
+                                        name="exact_{{ member.username }}"
+                                        class="exact-split-input"
+                                        min="0"
+                                        step="0.01"
+
+                                        value="{% if member.username in exact_values %}{{ '%.2f'|format(exact_values.get(member.username)) }}{% endif %}"
+                                    >
+
+                                    <span>
+                                        EGP
+                                    </span>
+
+                                </div>
+
+
+
+                                <!-- Percentage -->
+
+                                <div
+                                    class="
+                                        percentage-split-area
+                                        split-input-area
+
+                                        {% if split_method != 'percentage' %}
+                                            hidden
+                                        {% endif %}
+                                    "
+                                >
+
+                                    <div class="percentage-input-line">
+
+
+                                        <input
+                                            type="number"
+                                            name="percent_{{ member.username }}"
+                                            class="percentage-split-input"
+                                            min="0"
+                                            max="100"
+                                            step="0.01"
+
+                                            value="{% if member.username in percentage_values %}{{ '%.2f'|format(percentage_values.get(member.username)) }}{% endif %}"
+                                        >
+
+
+                                        <span>
+                                            %
+                                        </span>
+
+
+                                    </div>
+
+
+                                    <small class="percentage-money-preview">
+
+                                        0.00 EGP
+
+                                    </small>
+
+
+                                </div>
+
+
+                            </div>
+
+
+                        {% endfor %}
+
+
+                    </div>
+
+
+
+                    <!-- Summary -->
+
+                    <div class="split-summary">
+
+
+                        <div>
+
+                            <span>
+                                Expense
+                            </span>
+
+                            <strong id="expenseTotalPreview">
+                                0.00 EGP
+                            </strong>
+
+                        </div>
+
+
+                        <div>
+
+                            <span id="splitTotalLabel">
+                                Split
+                            </span>
+
+                            <strong id="splitTotalPreview">
+                                0.00 EGP
+                            </strong>
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <div
+                        class="split-validation split-valid"
+                        id="splitValidation"
+                    >
+                        Checking split...
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- Actions -->
+
+                <div class="edit-expense-actions-new">
+
+
+                    <a
+                        href="{{ url_for('group_detail', group_id=group.group_id) }}"
+                        class="ss-btn ss-btn-light"
+                    >
+                        Cancel
+                    </a>
+
+
+                    <button
+                        type="submit"
+                        class="ss-btn ss-btn-primary"
+                        id="addSplitExpenseButton"
+                    >
+                        Save changes
+                    </button>
+
+
+                </div>
+
+
+            </form>
+
+
+        </section>
+
+
+    </main>
+
+
+    <footer class="footer">
+        SpendSettle
+    </footer>
+
+
+    <script
+        src="{{ url_for('static', filename='split.js') }}"
+    ></script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,1156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="theme-color"
+        content="#4f46e5"
+    >
+
+    <title>
+        Profile | SpendSettle
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='brand.css') }}"
+    >
+
+
+    <style>
+
+        .profile-layout {
+            display: grid;
+
+            grid-template-columns:
+                minmax(260px, 0.65fr)
+                minmax(0, 1.35fr);
+
+            gap: 18px;
+        }
+
+
+        .profile-identity-card {
+            position: relative;
+
+            overflow: hidden;
+
+            padding: 26px;
+        }
+
+
+        .profile-identity-card::before {
+            content: "";
+
+            position: absolute;
+
+            width: 180px;
+            height: 180px;
+
+            top: -90px;
+            right: -80px;
+
+            border-radius: 50%;
+
+            background:
+                var(--ss-primary-soft);
+        }
+
+
+        .profile-big-avatar {
+            position: relative;
+            z-index: 2;
+
+            width: 68px;
+            height: 68px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            margin-bottom: 18px;
+
+            border-radius: 20px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #4f46e5,
+                    #7c3aed
+                );
+
+            color: white;
+
+            font-size: 25px;
+            font-weight: 800;
+
+            box-shadow:
+                0 14px 30px
+                rgba(79, 70, 229, 0.22);
+        }
+
+
+        .profile-identity-card h2 {
+            position: relative;
+            z-index: 2;
+
+            margin: 0 0 5px;
+
+            font-size: 19px;
+        }
+
+
+        .profile-username {
+            position: relative;
+            z-index: 2;
+
+            display: block;
+
+            margin-bottom: 22px;
+
+            color: var(--ss-text-muted);
+
+            font-size: 11px;
+        }
+
+
+        .profile-status {
+            position: relative;
+            z-index: 2;
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 6px;
+
+            min-height: 28px;
+
+            padding: 0 10px;
+
+            border-radius: 999px;
+
+            background:
+                var(--ss-success-soft);
+
+            color:
+                var(--ss-success-dark);
+
+            font-size: 9px;
+            font-weight: 700;
+        }
+
+
+        .profile-status-dot {
+            width: 6px;
+            height: 6px;
+
+            border-radius: 50%;
+
+            background:
+                var(--ss-success);
+        }
+
+
+        .profile-mini-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+
+            gap: 10px;
+
+            margin-top: 24px;
+
+            padding-top: 20px;
+
+            border-top:
+                1px solid var(--ss-border);
+        }
+
+
+        .profile-mini-item {
+            padding: 12px;
+
+            border-radius: 11px;
+
+            background:
+                var(--ss-bg-soft);
+        }
+
+
+        .profile-mini-item span {
+            display: block;
+
+            margin-bottom: 4px;
+
+            color: var(--ss-text-muted);
+
+            font-size: 8px;
+
+            text-transform: uppercase;
+
+            letter-spacing: 0.45px;
+        }
+
+
+        .profile-mini-item strong {
+            display: block;
+
+            font-size: 13px;
+        }
+
+
+        .profile-right {
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 18px;
+        }
+
+
+        .profile-section-card {
+            padding: 22px;
+        }
+
+
+        .profile-section-head {
+            margin-bottom: 19px;
+        }
+
+
+        .profile-section-head h2 {
+            margin: 0 0 4px;
+
+            font-size: 15px;
+        }
+
+
+        .profile-section-head p {
+            margin: 0;
+
+            color: var(--ss-text-muted);
+
+            font-size: 9px;
+        }
+
+
+        .profile-info-list {
+            display: flex;
+
+            flex-direction: column;
+        }
+
+
+        .profile-info-row {
+            display: flex;
+
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 20px;
+
+            min-height: 54px;
+
+            border-bottom:
+                1px solid #f2f4f7;
+        }
+
+
+        .profile-info-row:last-child {
+            border-bottom: none;
+        }
+
+
+        .profile-info-row span {
+            color: var(--ss-text-muted);
+
+            font-size: 10px;
+        }
+
+
+        .profile-info-row strong {
+            max-width: 65%;
+
+            overflow: hidden;
+
+            text-overflow: ellipsis;
+
+            font-size: 11px;
+
+            text-align: right;
+
+            white-space: nowrap;
+        }
+
+
+        .profile-wallet-link {
+            display: inline-flex;
+
+            margin-top: 15px;
+
+            color: var(--ss-primary);
+
+            font-size: 9px;
+            font-weight: 700;
+        }
+
+
+        .security-form {
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 15px;
+        }
+
+
+        .security-pin-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+
+            gap: 13px;
+        }
+
+
+        .security-current {
+            grid-column: 1 / -1;
+        }
+
+
+        .profile-security-note {
+            display: flex;
+
+            align-items: center;
+
+            gap: 7px;
+
+            padding: 10px 12px;
+
+            border-radius: 10px;
+
+            background:
+                var(--ss-primary-soft);
+
+            color:
+                var(--ss-primary-dark);
+
+            font-size: 9px;
+        }
+
+
+        .profile-pin-wrap {
+            position: relative;
+        }
+
+
+        .profile-pin-wrap input {
+            padding-right: 43px;
+        }
+
+
+        .profile-pin-toggle {
+            position: absolute;
+
+            top: 50%;
+            right: 7px;
+
+            transform:
+                translateY(-50%);
+
+            width: 31px;
+            height: 31px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            padding: 0;
+
+            border: none;
+
+            border-radius: 8px;
+
+            background: transparent;
+
+            color: var(--ss-text-muted);
+
+            cursor: pointer;
+        }
+
+
+        .profile-pin-toggle:hover {
+            background:
+                var(--ss-primary-soft);
+
+            color:
+                var(--ss-primary);
+        }
+
+
+        .profile-danger-row {
+            display: flex;
+
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 20px;
+        }
+
+
+        .profile-danger-copy strong {
+            display: block;
+
+            margin-bottom: 3px;
+
+            font-size: 11px;
+        }
+
+
+        .profile-danger-copy span {
+            color: var(--ss-text-muted);
+
+            font-size: 9px;
+        }
+
+
+        @media (max-width: 850px) {
+
+            .profile-layout {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+
+        @media (max-width: 600px) {
+
+            .security-pin-grid {
+                grid-template-columns: 1fr;
+            }
+
+
+            .security-current {
+                grid-column: auto;
+            }
+
+
+            .profile-danger-row {
+                align-items: flex-start;
+
+                flex-direction: column;
+            }
+
+
+            .profile-danger-row .ss-btn {
+                width: 100%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body class="dashboard-page">
+
+
+    {% include 'partials/navbar.html' %}
+
+
+    <main class="ss-page">
+
+
+        <header class="ss-page-header">
+
+            <div class="ss-page-heading">
+
+                <span class="ss-eyebrow">
+                    Account
+                </span>
+
+                <h1 class="ss-page-title">
+                    Profile
+                </h1>
+
+            </div>
+
+        </header>
+
+
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+
+            {% if messages %}
+
+                {% for category, message in messages %}
+
+                    <div class="message {{ category }}">
+                        {{ message }}
+                    </div>
+
+                {% endfor %}
+
+            {% endif %}
+
+        {% endwith %}
+
+
+
+        <section class="profile-layout">
+
+
+            <aside class="ss-card profile-identity-card">
+
+
+                <div class="profile-big-avatar">
+
+                    {% if user.name %}
+                        {{ user.name[0]|upper }}
+                    {% else %}
+                        U
+                    {% endif %}
+
+                </div>
+
+
+                <h2>
+                    {{ user.name }}
+                </h2>
+
+
+                <span class="profile-username">
+                    @{{ user.username }}
+                </span>
+
+
+                <div class="profile-status">
+
+                    <span class="profile-status-dot"></span>
+
+                    Active account
+
+                </div>
+
+
+
+                <div class="profile-mini-grid">
+
+
+                    <div class="profile-mini-item">
+
+                        <span>
+                            Balance
+                        </span>
+
+                        <strong>
+
+                            {% if balance_unlocked %}
+
+                                {{ "%.2f"|format(wallet_balance) }}
+
+                            {% else %}
+
+                                ••••••••
+
+                            {% endif %}
+
+                        </strong>
+
+                    </div>
+
+
+                    <div class="profile-mini-item">
+
+                        <span>
+                            Activity
+                        </span>
+
+                        <strong>
+                            {{ transaction_count|default(0) }}
+                        </strong>
+
+                    </div>
+
+
+                </div>
+
+
+                {% if not balance_unlocked %}
+
+                    <a
+                        href="{{ url_for('wallet', action='balance') }}"
+                        class="profile-wallet-link"
+                    >
+                        Unlock balance in Wallet →
+                    </a>
+
+                {% else %}
+
+                    <form
+                        action="{{ url_for('hide_balance') }}"
+                        method="POST"
+                        style="margin-top: 15px;"
+                    >
+
+                        <input
+                            type="hidden"
+                            name="next_page"
+                            value="profile"
+                        >
+
+                        <button
+                            type="submit"
+                            class="ss-btn ss-btn-light"
+                            style="width: 100%;"
+                        >
+                            Hide balance
+                        </button>
+
+                    </form>
+
+                {% endif %}
+
+
+            </aside>
+
+
+
+            <div class="profile-right">
+
+
+                <section class="ss-card profile-section-card">
+
+
+                    <div class="profile-section-head">
+
+                        <h2>
+                            Personal details
+                        </h2>
+
+                    </div>
+
+
+                    <div class="profile-info-list">
+
+
+                        <div class="profile-info-row">
+
+                            <span>
+                                Full name
+                            </span>
+
+                            <strong>
+                                {{ user.name }}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="profile-info-row">
+
+                            <span>
+                                Username
+                            </span>
+
+                            <strong>
+                                @{{ user.username }}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="profile-info-row">
+
+                            <span>
+                                Phone
+                            </span>
+
+                            <strong>
+                                {{ user.phone }}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="profile-info-row">
+
+                            <span>
+                                Wallet balance
+                            </span>
+
+                            <strong
+                                class="
+                                    {% if balance_unlocked %}
+                                        ss-positive
+                                    {% endif %}
+                                "
+                            >
+
+                                {% if balance_unlocked %}
+
+                                    {{ "%.2f"|format(wallet_balance) }}
+                                    EGP
+
+                                {% else %}
+
+                                    •••••••• EGP
+
+                                {% endif %}
+
+                            </strong>
+
+                        </div>
+
+
+                    </div>
+
+
+                </section>
+
+
+
+                <section class="ss-card profile-section-card">
+
+
+                    <div class="profile-section-head">
+
+                        <h2>
+                            Security
+                        </h2>
+
+                        <p>
+                            Change your wallet PIN.
+                        </p>
+
+                    </div>
+
+
+
+                    <form
+                        action="{{ url_for('change_pin') }}"
+                        method="POST"
+                        class="security-form"
+                        id="changePinForm"
+                    >
+
+
+                        <div class="security-pin-grid">
+
+
+                            <div class="form-group security-current">
+
+                                <label for="current_pin">
+                                    Current PIN
+                                </label>
+
+
+                                <div class="profile-pin-wrap">
+
+                                    <input
+                                        type="password"
+                                        id="current_pin"
+                                        name="current_pin"
+                                        inputmode="numeric"
+                                        maxlength="4"
+                                        pattern="[0-9]{4}"
+                                        placeholder="••••"
+                                        required
+                                    >
+
+
+                                    <button
+                                        type="button"
+                                        class="profile-pin-toggle"
+                                        data-target="current_pin"
+                                        aria-label="Show PIN"
+                                    >
+                                        ◉
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+
+
+                            <div class="form-group">
+
+                                <label for="new_pin">
+                                    New PIN
+                                </label>
+
+
+                                <div class="profile-pin-wrap">
+
+                                    <input
+                                        type="password"
+                                        id="new_pin"
+                                        name="new_pin"
+                                        inputmode="numeric"
+                                        maxlength="4"
+                                        pattern="[0-9]{4}"
+                                        placeholder="••••"
+                                        required
+                                    >
+
+
+                                    <button
+                                        type="button"
+                                        class="profile-pin-toggle"
+                                        data-target="new_pin"
+                                        aria-label="Show PIN"
+                                    >
+                                        ◉
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+
+
+                            <div class="form-group">
+
+                                <label for="confirm_pin">
+                                    Confirm PIN
+                                </label>
+
+
+                                <div class="profile-pin-wrap">
+
+                                    <input
+                                        type="password"
+                                        id="confirm_pin"
+                                        name="confirm_pin"
+                                        inputmode="numeric"
+                                        maxlength="4"
+                                        pattern="[0-9]{4}"
+                                        placeholder="••••"
+                                        required
+                                    >
+
+
+                                    <button
+                                        type="button"
+                                        class="profile-pin-toggle"
+                                        data-target="confirm_pin"
+                                        aria-label="Show PIN"
+                                    >
+                                        ◉
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+
+
+                        <div
+                            class="profile-security-note"
+                            id="pinMessage"
+                        >
+
+                            <span>•</span>
+
+                            <span>
+                                PIN must contain exactly 4 digits.
+                            </span>
+
+                        </div>
+
+
+
+                        <button
+                            type="submit"
+                            class="ss-btn ss-btn-primary"
+                        >
+                            Update PIN
+                        </button>
+
+
+                    </form>
+
+
+                </section>
+
+
+
+                <section class="ss-card profile-section-card">
+
+
+                    <div class="profile-danger-row">
+
+
+                        <div class="profile-danger-copy">
+
+                            <strong>
+                                Sign out
+                            </strong>
+
+                            <span>
+                                End your current session.
+                            </span>
+
+                        </div>
+
+
+                        <a
+                            href="{{ url_for('logout') }}"
+                            class="ss-btn ss-btn-danger"
+                        >
+                            Sign out
+                        </a>
+
+
+                    </div>
+
+
+                </section>
+
+
+            </div>
+
+
+        </section>
+
+
+    </main>
+
+
+    <footer class="footer">
+        SpendSettle • Account
+    </footer>
+
+
+
+    <script>
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function () {
+
+
+                const newPin =
+                    document.getElementById(
+                        "new_pin"
+                    );
+
+                const confirmPin =
+                    document.getElementById(
+                        "confirm_pin"
+                    );
+
+                const pinMessage =
+                    document.getElementById(
+                        "pinMessage"
+                    );
+
+                const changePinForm =
+                    document.getElementById(
+                        "changePinForm"
+                    );
+
+
+                document
+                    .querySelectorAll(
+                        "#current_pin, #new_pin, #confirm_pin"
+                    )
+                    .forEach(
+                        function (input) {
+
+                            input.addEventListener(
+                                "input",
+                                function () {
+
+                                    this.value =
+                                        this.value
+                                            .replace(
+                                                /\D/g,
+                                                ""
+                                            )
+                                            .slice(
+                                                0,
+                                                4
+                                            );
+
+                                    updatePinStatus();
+
+                                }
+                            );
+
+                        }
+                    );
+
+
+                document
+                    .querySelectorAll(
+                        ".profile-pin-toggle"
+                    )
+                    .forEach(
+                        function (button) {
+
+                            button.addEventListener(
+                                "click",
+                                function () {
+
+                                    const target =
+                                        document.getElementById(
+                                            this.dataset.target
+                                        );
+
+
+                                    if (!target) {
+                                        return;
+                                    }
+
+
+                                    const hidden =
+                                        target.type
+                                        === "password";
+
+
+                                    target.type =
+                                        hidden
+                                            ? "text"
+                                            : "password";
+
+
+                                    this.textContent =
+                                        hidden
+                                            ? "○"
+                                            : "◉";
+
+
+                                    target.focus();
+
+                                }
+                            );
+
+                        }
+                    );
+
+
+                function updatePinStatus() {
+
+                    if (
+                        !newPin
+                        || !confirmPin
+                        || !pinMessage
+                    ) {
+                        return;
+                    }
+
+
+                    const text =
+                        pinMessage.querySelector(
+                            "span:last-child"
+                        );
+
+
+                    if (
+                        newPin.value.length < 4
+                        || confirmPin.value.length < 4
+                    ) {
+
+                        text.textContent =
+                            "PIN must contain exactly 4 digits.";
+
+                        pinMessage.style.background =
+                            "";
+
+                        pinMessage.style.color =
+                            "";
+
+                        return;
+
+                    }
+
+
+                    if (
+                        newPin.value
+                        !== confirmPin.value
+                    ) {
+
+                        text.textContent =
+                            "New PINs do not match.";
+
+                        pinMessage.style.background =
+                            "#fef3f2";
+
+                        pinMessage.style.color =
+                            "#b42318";
+
+                        return;
+
+                    }
+
+
+                    text.textContent =
+                        "✓ PINs match.";
+
+                    pinMessage.style.background =
+                        "#ecfdf3";
+
+                    pinMessage.style.color =
+                        "#027a48";
+
+                }
+
+
+                if (changePinForm) {
+
+                    changePinForm.addEventListener(
+                        "submit",
+                        function (event) {
+
+                            if (
+                                newPin.value
+                                !== confirmPin.value
+                            ) {
+
+                                event.preventDefault();
+
+                                updatePinStatus();
+
+                                confirmPin.focus();
+
+                            }
+
+                        }
+                    );
+
+                }
+
+
+            }
+        );
+
+    </script>
+
+
+</body>
+
+</html>

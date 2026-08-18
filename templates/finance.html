@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="theme-color"
+        content="#4f46e5"
+    >
+
+    <title>
+        Money | SpendSettle
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='finance.css') }}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='brand.css') }}"
+    >
+
+
+    <style>
+
+        .money-overview {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 14px;
+        }
+
+
+        .money-progress-card {
+            margin-top: 15px;
+            padding: 20px;
+        }
+
+
+        .money-progress-header {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            margin-bottom: 12px;
+        }
+
+
+        .money-progress-header strong {
+            font-size: 13px;
+        }
+
+
+        .money-progress-header span {
+            color: var(--ss-text-muted);
+            font-size: 10px;
+        }
+
+
+        .money-progress-card progress {
+            width: 100%;
+            height: 9px;
+            overflow: hidden;
+            border: none;
+            border-radius: 999px;
+        }
+
+
+        .money-progress-card progress::-webkit-progress-bar {
+            background: #eef2f6;
+            border-radius: 999px;
+        }
+
+
+        .money-progress-card progress::-webkit-progress-value {
+            background: #4f46e5;
+            border-radius: 999px;
+        }
+
+
+        .money-progress-card progress::-moz-progress-bar {
+            background: #4f46e5;
+            border-radius: 999px;
+        }
+
+
+        .money-form-grid {
+            display: grid;
+            grid-template-columns: minmax(260px, 0.7fr) minmax(0, 1.3fr);
+            gap: 16px;
+        }
+
+
+        .money-form-card {
+            padding: 21px;
+        }
+
+
+        .money-form-card h3 {
+            margin: 0 0 18px;
+            font-size: 15px;
+        }
+
+
+        .money-form {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+
+        .category-list {
+            display: flex;
+            flex-direction: column;
+            gap: 9px;
+        }
+
+
+        .category-row {
+            display: grid;
+            grid-template-columns: minmax(120px, 1fr) minmax(100px, 1fr) auto;
+            align-items: center;
+            gap: 14px;
+
+            padding: 11px 0;
+
+            border-bottom: 1px solid #f2f4f7;
+        }
+
+
+        .category-row:last-child {
+            border-bottom: none;
+        }
+
+
+        .category-name strong {
+            display: block;
+            font-size: 11px;
+        }
+
+
+        .category-name span {
+            color: var(--ss-text-muted);
+            font-size: 9px;
+        }
+
+
+        .category-row progress {
+            width: 100%;
+            height: 6px;
+        }
+
+
+        .category-row > strong {
+            font-size: 11px;
+            white-space: nowrap;
+        }
+
+
+        .money-history-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 12px;
+        }
+
+
+        .money-history-card {
+            display: block;
+            padding: 17px;
+        }
+
+
+        .money-history-card-top {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+
+        .money-history-card h3 {
+            margin: 0;
+            font-size: 13px;
+        }
+
+
+        .money-history-card p {
+            margin: 4px 0 0;
+            color: var(--ss-text-muted);
+            font-size: 9px;
+        }
+
+
+        .money-history-values {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+
+        .money-history-values span {
+            display: block;
+            color: var(--ss-text-muted);
+            font-size: 8px;
+        }
+
+
+        .money-history-values strong {
+            display: block;
+            margin-top: 3px;
+            font-size: 11px;
+        }
+
+
+        @media (max-width: 900px) {
+
+            .money-overview {
+                grid-template-columns: 1fr 1fr;
+            }
+
+
+            .money-form-grid {
+                grid-template-columns: 1fr;
+            }
+
+
+            .money-history-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+        }
+
+
+        @media (max-width: 600px) {
+
+            .money-overview,
+            .money-history-grid {
+                grid-template-columns: 1fr;
+            }
+
+
+            .category-row {
+                grid-template-columns: 1fr auto;
+            }
+
+
+            .category-row progress {
+                grid-column: 1 / -1;
+                grid-row: 2;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body class="dashboard-page">
+
+
+    {% include 'partials/navbar.html' %}
+
+
+    <main class="ss-page">
+
+
+        <!-- =========================================
+             Header
+             ========================================= -->
+
+        <header class="ss-page-header">
+
+            <div class="ss-page-heading">
+
+                <span class="ss-eyebrow">
+                    Money
+                </span>
+
+                <h1 class="ss-page-title">
+                    {{ month_info.label }}
+                </h1>
+
+                <p class="ss-page-subtitle">
+
+                    {{ month_info.days_remaining }}
+                    days left this month.
+
+                </p>
+
+            </div>
+
+
+            <span class="ss-badge ss-badge-primary">
+
+                Day
+                {{ month_info.day_of_month }}
+                of
+                {{ month_info.days_in_month }}
+
+            </span>
+
+        </header>
+
+
+
+        <!-- =========================================
+             Messages
+             ========================================= -->
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+
+            {% if messages %}
+
+                {% for category, message in messages %}
+
+                    <div class="message {{ category }}">
+                        {{ message }}
+                    </div>
+
+                {% endfor %}
+
+            {% endif %}
+
+        {% endwith %}
+
+
+
+        <!-- =========================================
+             Overview
+             ========================================= -->
+
+        <section class="money-overview">
+
+
+            <div class="ss-stat-card">
+
+                <span class="ss-stat-label">
+                    Budget
+                </span>
+
+                <strong class="ss-stat-value">
+
+                    {{ "%.2f"|format(summary.budget) }}
+
+                </strong>
+
+                <span class="ss-stat-meta">
+                    EGP
+                </span>
+
+            </div>
+
+
+
+            <div class="ss-stat-card">
+
+                <span class="ss-stat-label">
+                    Spent
+                </span>
+
+                <strong class="ss-stat-value">
+
+                    {{ "%.2f"|format(summary.total_spent) }}
+
+                </strong>
+
+                <span class="ss-stat-meta">
+
+                    {{ summary.expense_count }}
+                    expenses
+
+                </span>
+
+            </div>
+
+
+
+            <div class="ss-stat-card">
+
+                <span class="ss-stat-label">
+                    Left
+                </span>
+
+                <strong
+                    class="
+                        ss-stat-value
+
+                        {% if summary.remaining < 0 %}
+                            ss-negative
+                        {% else %}
+                            ss-positive
+                        {% endif %}
+                    "
+                >
+
+                    {{ "%.2f"|format(summary.remaining) }}
+
+                </strong>
+
+                <span class="ss-stat-meta">
+                    EGP
+                </span>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =========================================
+             Budget Progress
+             ========================================= -->
+
+        <section class="ss-card money-progress-card">
+
+            <div class="money-progress-header">
+
+                <strong>
+                    Monthly budget
+                </strong>
+
+                <span>
+
+                    {% if summary.budget > 0 %}
+
+                        {{ "%.0f"|format(summary.percentage) }}%
+                        used
+
+                    {% else %}
+
+                        No budget set
+
+                    {% endif %}
+
+                </span>
+
+            </div>
+
+
+            <progress
+                value="{{ summary.percentage }}"
+                max="100"
+            ></progress>
+
+        </section>
+
+
+
+        <!-- =========================================
+             Forms
+             ========================================= -->
+
+        <section class="ss-section">
+
+            <div class="money-form-grid">
+
+
+                <!-- Budget -->
+
+                <div class="ss-card money-form-card">
+
+                    <h3>
+                        Set budget
+                    </h3>
+
+
+                    <form
+                        action="{{ url_for('set_budget') }}"
+                        method="POST"
+                        class="money-form"
+                    >
+
+                        <div class="form-group">
+
+                            <label>
+                                Monthly budget
+                            </label>
+
+                            <input
+                                type="number"
+                                name="budget"
+                                min="0.01"
+                                step="0.01"
+                                value="{% if summary.budget > 0 %}{{ '%.2f'|format(summary.budget) }}{% endif %}"
+                                placeholder="0.00 EGP"
+                                required
+                            >
+
+                        </div>
+
+
+                        <button
+                            type="submit"
+                            class="ss-btn ss-btn-primary"
+                        >
+                            Save budget
+                        </button>
+
+                    </form>
+
+                </div>
+
+
+
+                <!-- Expense -->
+
+                <div class="ss-card money-form-card">
+
+                    <h3>
+                        Add expense
+                    </h3>
+
+
+                    <form
+                        action="{{ url_for('add_expense') }}"
+                        method="POST"
+                        class="money-form"
+                    >
+
+                        <div class="ss-grid ss-grid-2">
+
+                            <div class="form-group">
+
+                                <label>
+                                    Category
+                                </label>
+
+                                <select
+                                    name="category"
+                                    required
+                                >
+
+                                    {% for category in categories %}
+
+                                        <option value="{{ category }}">
+                                            {{ category }}
+                                        </option>
+
+                                    {% endfor %}
+
+                                </select>
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label>
+                                    Amount
+                                </label>
+
+                                <input
+                                    type="number"
+                                    name="amount"
+                                    min="0.01"
+                                    step="0.01"
+                                    placeholder="0.00 EGP"
+                                    required
+                                >
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Note
+                            </label>
+
+                            <input
+                                type="text"
+                                name="note"
+                                maxlength="100"
+                                placeholder="Optional"
+                            >
+
+                        </div>
+
+
+                        <button
+                            type="submit"
+                            class="ss-btn ss-btn-primary"
+                        >
+                            Add expense
+                        </button>
+
+                    </form>
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =========================================
+             Spending Categories
+             ========================================= -->
+
+        <section class="ss-section">
+
+            <div class="ss-section-header">
+
+                <div>
+                    <h2>
+                        Spending
+                    </h2>
+                </div>
+
+            </div>
+
+
+            <div class="ss-card">
+
+
+                {% if summary.category_breakdown %}
+
+                    <div class="category-list">
+
+
+                        {% for item in summary.category_breakdown %}
+
+                            <div class="category-row">
+
+                                <div class="category-name">
+
+                                    <strong>
+                                        {{ item.category }}
+                                    </strong>
+
+                                    <span>
+
+                                        {{ "%.0f"|format(item.percentage) }}%
+
+                                    </span>
+
+                                </div>
+
+
+                                <progress
+                                    value="{{ item.percentage }}"
+                                    max="100"
+                                ></progress>
+
+
+                                <strong>
+
+                                    {{ "%.2f"|format(item.amount) }}
+                                    EGP
+
+                                </strong>
+
+                            </div>
+
+                        {% endfor %}
+
+
+                    </div>
+
+
+                {% else %}
+
+                    <div class="ss-empty-state">
+
+                        <div class="ss-empty-icon">
+                            ◫
+                        </div>
+
+                        <h3>
+                            No spending yet
+                        </h3>
+
+                        <p>
+                            Add an expense to see your breakdown.
+                        </p>
+
+                    </div>
+
+                {% endif %}
+
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =========================================
+             Recent Expenses
+             ========================================= -->
+
+        <section class="ss-section">
+
+            <div class="ss-section-header">
+
+                <div>
+                    <h2>
+                        Recent expenses
+                    </h2>
+                </div>
+
+            </div>
+
+
+            {% if summary.expenses %}
+
+                <div class="table-wrapper">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Category
+                                </th>
+
+                                <th>
+                                    Note
+                                </th>
+
+                                <th>
+                                    Date
+                                </th>
+
+                                <th>
+                                    Amount
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+
+                            {% for expense in summary.expenses[:8] %}
+
+                                <tr>
+
+                                    <td>
+                                        <strong>
+                                            {{ expense.category }}
+                                        </strong>
+                                    </td>
+
+                                    <td>
+                                        {{ expense.note or '—' }}
+                                    </td>
+
+                                    <td>
+
+                                        {{ expense.date.strftime('%d %b %Y') }}
+
+                                    </td>
+
+                                    <td class="ss-negative">
+
+                                        <strong>
+
+                                            -{{ "%.2f"|format(expense.amount) }}
+                                            EGP
+
+                                        </strong>
+
+                                    </td>
+
+                                </tr>
+
+                            {% endfor %}
+
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+
+            {% else %}
+
+                <div class="ss-card ss-empty-state">
+
+                    <div class="ss-empty-icon">
+                        ↓
+                    </div>
+
+                    <h3>
+                        No expenses
+                    </h3>
+
+                    <p>
+                        Your expenses will appear here.
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+        </section>
+
+
+
+        <!-- =========================================
+             History
+             ========================================= -->
+
+        {% if history %}
+
+            <section class="ss-section">
+
+                <div class="ss-section-header">
+
+                    <div>
+                        <h2>
+                            History
+                        </h2>
+                    </div>
+
+                </div>
+
+
+                <div class="money-history-grid">
+
+
+                    {% for item in history[:6] %}
+
+                        <a
+                            href="{{ url_for('finance_history', month=item.month) }}"
+                            class="ss-card ss-card-hover money-history-card"
+                        >
+
+                            <div class="money-history-card-top">
+
+                                <div>
+
+                                    <h3>
+                                        {{ item.label }}
+                                    </h3>
+
+                                    <p>
+
+                                        {{ item.expense_count }}
+                                        expenses
+
+                                    </p>
+
+                                </div>
+
+
+                                {% if item.is_current %}
+
+                                    <span class="ss-badge ss-badge-primary">
+                                        Current
+                                    </span>
+
+                                {% endif %}
+
+                            </div>
+
+
+                            <div class="money-history-values">
+
+                                <div>
+
+                                    <span>
+                                        Spent
+                                    </span>
+
+                                    <strong>
+                                        {{ "%.2f"|format(item.total_spent) }}
+                                    </strong>
+
+                                </div>
+
+
+                                <div>
+
+                                    <span>
+                                        Budget
+                                    </span>
+
+                                    <strong>
+                                        {{ "%.2f"|format(item.budget) }}
+                                    </strong>
+
+                                </div>
+
+
+                                <div>
+
+                                    <span>
+                                        Left
+                                    </span>
+
+                                    <strong
+                                        class="
+                                            {% if item.remaining < 0 %}
+                                                ss-negative
+                                            {% else %}
+                                                ss-positive
+                                            {% endif %}
+                                        "
+                                    >
+                                        {{ "%.2f"|format(item.remaining) }}
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+                        </a>
+
+                    {% endfor %}
+
+
+                </div>
+
+            </section>
+
+        {% endif %}
+
+
+    </main>
+
+
+    <footer class="footer">
+        SpendSettle • Money
+    </footer>
+
+
+</body>
+
+</html>
